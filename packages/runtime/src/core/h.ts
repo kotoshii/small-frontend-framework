@@ -52,4 +52,4 @@ function hFragment(children: SFFElement | SFFElement[] = []): VDOMNodeFragment {
   };
 }
 
-export { hElement as h, hFragment };
+export { hFragment as fragment, hElement as h };
