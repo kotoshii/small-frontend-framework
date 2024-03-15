@@ -11,4 +11,4 @@ export type SFFElement =
   | boolean
   | undefined;
 
-export type _SFFElementTruthy = VDOMNodeElement | string | number | boolean;
+export type _SFFElementTruthy = Exclude<SFFElement, null | undefined>;
