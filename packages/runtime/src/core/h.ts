@@ -35,6 +35,8 @@ function hElement(
     props,
     children: buildChildrenArray(children),
     type: VDOMNodeType.ELEMENT,
+    el: null,
+    listeners: {},
   };
 }
 
@@ -42,6 +44,7 @@ function hString(value: string | boolean | number): VDOMNodeText {
   return {
     type: VDOMNodeType.TEXT,
     value: String(value),
+    el: null,
   };
 }
 
@@ -49,6 +52,7 @@ function hFragment(children: SFFElement | SFFElement[] = []): VDOMNodeFragment {
   return {
     type: VDOMNodeType.FRAGMENT,
     children: buildChildrenArray(children),
+    el: null,
   };
 }
 
