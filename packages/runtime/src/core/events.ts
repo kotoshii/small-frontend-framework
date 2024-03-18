@@ -21,3 +21,12 @@ export function addEventListeners(
 
   return addedListeners;
 }
+
+export function removeEventListeners(
+  listeners: EventListenersMap = {},
+  el: HTMLElement,
+) {
+  Object.entries(listeners).forEach(([eventName, handler]) => {
+    el.removeEventListener(eventName, handler);
+  });
+}
