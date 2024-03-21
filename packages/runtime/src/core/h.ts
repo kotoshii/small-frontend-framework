@@ -5,7 +5,8 @@ import { VDOMNodeElement } from '~types/vdom/VDOMNodeElement';
 import { VDOMNodeFragment } from '~types/vdom/VDOMNodeFragment';
 import { VDOMNodeProps } from '~types/vdom/VDOMNodeProps';
 import { VDOMNodeText } from '~types/vdom/VDOMNodeText';
-import { childrenArray, removeFalsyElements } from '~utils/vdom';
+import { toArray } from '~utils/arrays';
+import { removeFalsyElements } from '~utils/vdom';
 
 function convertToVDOMNodes(elements: _SFFElementTruthy[]): SFFVDOMNode[] {
   return elements.map((element) => {
@@ -22,7 +23,7 @@ function convertToVDOMNodes(elements: _SFFElementTruthy[]): SFFVDOMNode[] {
 }
 
 function buildChildrenArray(children: SFFElement | SFFElement[]) {
-  return convertToVDOMNodes(removeFalsyElements(childrenArray(children)));
+  return convertToVDOMNodes(removeFalsyElements(toArray(children)));
 }
 
 function hElement(

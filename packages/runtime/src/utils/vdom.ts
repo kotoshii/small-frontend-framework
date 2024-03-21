@@ -13,7 +13,3 @@ export function removeFalsyElements(
     (element) => !isElementFalsy(element),
   ) as _SFFElementTruthy[];
 }
-
-export function childrenArray(children: SFFElement | SFFElement[]) {
-  return Array.isArray(children) ? children : [children];
-}
