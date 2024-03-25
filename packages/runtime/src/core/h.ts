@@ -1,10 +1,12 @@
 import { VDOMNodeType } from '~constants/vdom';
 import { _SFFElementTruthy, SFFElement } from '~types/SFFElement';
 import { SFFVDOMNode } from '~types/vdom/SFFVDOMNode';
-import { VDOMNodeElement } from '~types/vdom/VDOMNodeElement';
-import { VDOMNodeFragment } from '~types/vdom/VDOMNodeFragment';
+import {
+  VDOMNodeElement,
+  VDOMNodeFragment,
+  VDOMNodeText,
+} from '~types/vdom/VDOMNode';
 import { VDOMNodeProps } from '~types/vdom/VDOMNodeProps';
-import { VDOMNodeText } from '~types/vdom/VDOMNodeText';
 import { toArray } from '~utils/arrays';
 import { removeFalsyElements } from '~utils/vdom';
 

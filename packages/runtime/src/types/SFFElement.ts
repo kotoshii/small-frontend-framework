@@ -1,5 +1,4 @@
-import { VDOMNodeElement } from '~types/vdom/VDOMNodeElement';
-import { VDOMNodeFragment } from '~types/vdom/VDOMNodeFragment';
+import { VDOMNodeElement, VDOMNodeFragment } from '~types/vdom/VDOMNode';
 
 // Values that can be passed as children
 export type SFFElement =

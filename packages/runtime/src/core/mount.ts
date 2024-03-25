@@ -2,10 +2,12 @@ import { VDOMNodeType } from '~constants/vdom';
 import { setAttributes } from '~core/attributes';
 import { addEventListeners } from '~core/events';
 import { SFFVDOMNode } from '~types/vdom/SFFVDOMNode';
-import { VDOMNodeElement } from '~types/vdom/VDOMNodeElement';
-import { VDOMNodeFragment } from '~types/vdom/VDOMNodeFragment';
+import {
+  VDOMNodeElement,
+  VDOMNodeFragment,
+  VDOMNodeText,
+} from '~types/vdom/VDOMNode';
 import { VDOMNodeProps } from '~types/vdom/VDOMNodeProps';
-import { VDOMNodeText } from '~types/vdom/VDOMNodeText';
 
 export function mount(node: SFFVDOMNode, parentElement: HTMLElement) {
   switch (node.type) {

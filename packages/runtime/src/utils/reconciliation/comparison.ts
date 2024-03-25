@@ -1,6 +1,5 @@
 import { ComparatorFn } from '~types/ComparatorFn';
-import { ArraysDiff } from '~types/reconciliation/ArraysDiff';
-import { ArraysDiffOp } from '~types/reconciliation/ArraysDiffOp';
+import { ArraysDiff, ArraysDiffOp } from '~types/reconciliation/ArraysDiff';
 import { ObjectsDiff } from '~types/reconciliation/ObjectsDiff';
 import { ArrayWithOriginalIndices } from '~utils/reconciliation/ArrayWithOriginalIndices';
 

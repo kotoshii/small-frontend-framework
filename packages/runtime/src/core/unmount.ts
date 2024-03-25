@@ -1,9 +1,11 @@
 import { VDOMNodeType } from '~constants/vdom';
 import { removeEventListeners } from '~core/events';
 import { SFFVDOMNode } from '~types/vdom/SFFVDOMNode';
-import { VDOMNodeElement } from '~types/vdom/VDOMNodeElement';
-import { VDOMNodeFragment } from '~types/vdom/VDOMNodeFragment';
-import { VDOMNodeText } from '~types/vdom/VDOMNodeText';
+import {
+  VDOMNodeElement,
+  VDOMNodeFragment,
+  VDOMNodeText,
+} from '~types/vdom/VDOMNode';
 
 export function unmount(node: SFFVDOMNode) {
   switch (node.type) {
