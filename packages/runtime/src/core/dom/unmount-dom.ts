@@ -1,5 +1,5 @@
 import { VDOMNodeType } from '~constants/vdom';
-import { removeEventListeners } from '~core/events';
+import { removeEventListeners } from '~core/dom/events';
 import { SFFVDOMNode } from '~types/vdom/SFFVDOMNode';
 import {
   VDOMNodeElement,
@@ -7,7 +7,7 @@ import {
   VDOMNodeText,
 } from '~types/vdom/VDOMNode';
 
-export function unmount(node: SFFVDOMNode) {
+export function unmountDOM(node: SFFVDOMNode) {
   switch (node.type) {
     case VDOMNodeType.TEXT: {
       removeTextNode(node);
@@ -38,11 +38,11 @@ function removeElementNode(node: VDOMNodeElement) {
     // node.el = null;
   }
 
-  children.forEach(unmount);
+  children.forEach(unmountDOM);
 }
 
 function removeFragmentNodes(node: VDOMNodeFragment) {
-  node.children.forEach(unmount);
+  node.children.forEach(unmountDOM);
 }
 
 function removeTextNode(node: VDOMNodeText) {

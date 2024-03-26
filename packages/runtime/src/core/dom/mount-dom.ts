@@ -1,6 +1,6 @@
 import { VDOMNodeType } from '~constants/vdom';
-import { setAttributes } from '~core/attributes';
-import { addEventListeners } from '~core/events';
+import { setAttributes } from '~core/dom/attributes';
+import { addEventListeners } from '~core/dom/events';
 import { SFFVDOMNode } from '~types/vdom/SFFVDOMNode';
 import {
   VDOMNodeElement,
@@ -9,7 +9,7 @@ import {
 } from '~types/vdom/VDOMNode';
 import { VDOMNodeProps } from '~types/vdom/VDOMNodeProps';
 
-export function mount(node: SFFVDOMNode, parentElement: HTMLElement) {
+export function mountDOM(node: SFFVDOMNode, parentElement: HTMLElement) {
   switch (node.type) {
     case VDOMNodeType.ELEMENT: {
       createElementNode(node, parentElement);
@@ -35,7 +35,7 @@ function createElementNode(node: VDOMNodeElement, parentElement: HTMLElement) {
   const element = document.createElement(tag);
 
   addProps(element, props, node);
-  children.forEach((child) => mount(child, element));
+  children.forEach((child) => mountDOM(child, element));
 
   node.el = element;
   parentElement.append(element);
@@ -45,7 +45,7 @@ function createFragmentNodes(
   node: VDOMNodeFragment,
   parentElement: HTMLElement,
 ) {
-  node.children.forEach((child) => mount(child, parentElement));
+  node.children.forEach((child) => mountDOM(child, parentElement));
   node.el = parentElement;
 }
 
