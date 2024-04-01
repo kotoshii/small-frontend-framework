@@ -18,7 +18,7 @@ export function setAttributes(el: HTMLElement, attrs: VDOMNodeProps) {
   );
 }
 
-function setClass(el: HTMLElement, className: string | string[]) {
+export function setClass(el: HTMLElement, className: string | string[]) {
   el.className = '';
 
   if (Array.isArray(className)) {
@@ -28,12 +28,20 @@ function setClass(el: HTMLElement, className: string | string[]) {
   }
 }
 
-function setStyle(el: HTMLElement, name: string, value: string | null) {
+export function setStyle(el: HTMLElement, name: string, value: string | null) {
   const important = value?.includes('!important') ? 'important' : '';
   el.style.setProperty(name, value, important);
 }
 
-function setAttribute(el: HTMLElement, name: string, value: string | null) {
+export function removeStyle(el: HTMLElement, name: string) {
+  el.style.removeProperty(name);
+}
+
+export function setAttribute(
+  el: HTMLElement,
+  name: string,
+  value: string | null,
+) {
   if (value == null) {
     removeAttribute(el, name);
   } else if (name.startsWith('data-')) {
@@ -47,7 +55,7 @@ function setAttribute(el: HTMLElement, name: string, value: string | null) {
   }
 }
 
-function removeAttribute(el: HTMLElement, name: string) {
+export function removeAttribute(el: HTMLElement, name: string) {
   if (name in el) {
     // Some elements have attributes attached directly: e.g. - HTMLInputElement
 

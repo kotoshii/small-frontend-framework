@@ -9,18 +9,24 @@ import {
 } from '~types/vdom/VDOMNode';
 import { VDOMNodeProps } from '~types/vdom/VDOMNodeProps';
 
-export function mountDOM(node: SFFVDOMNode, parentElement: HTMLElement) {
+type NodeIndex = number | null | undefined;
+
+export function mountDOM(
+  node: SFFVDOMNode,
+  parentElement: HTMLElement,
+  index?: NodeIndex,
+) {
   switch (node.type) {
     case VDOMNodeType.ELEMENT: {
-      createElementNode(node, parentElement);
+      createElementNode(node, parentElement, index);
       break;
     }
     case VDOMNodeType.FRAGMENT: {
-      createFragmentNodes(node, parentElement);
+      createFragmentNodes(node, parentElement, index);
       break;
     }
     case VDOMNodeType.TEXT: {
-      createTextNode(node, parentElement);
+      createTextNode(node, parentElement, index);
       break;
     }
     default: {
@@ -29,7 +35,28 @@ export function mountDOM(node: SFFVDOMNode, parentElement: HTMLElement) {
   }
 }
 
-function createElementNode(node: VDOMNodeElement, parentElement: HTMLElement) {
+function insert(
+  el: HTMLElement | Text,
+  parentElement: HTMLElement,
+  index: NodeIndex,
+) {
+  if (index === null || typeof index === 'undefined') {
+    parentElement.append(el);
+    return;
+  }
+
+  if (index >= parentElement.childNodes.length) {
+    parentElement.append(el);
+  } else {
+    parentElement.insertBefore(el, parentElement.childNodes[index]);
+  }
+}
+
+function createElementNode(
+  node: VDOMNodeElement,
+  parentElement: HTMLElement,
+  index: NodeIndex,
+) {
   const { tag, props, children } = node;
 
   const element = document.createElement(tag);
@@ -38,21 +65,30 @@ function createElementNode(node: VDOMNodeElement, parentElement: HTMLElement) {
   children.forEach((child) => mountDOM(child, element));
 
   node.el = element;
-  parentElement.append(element);
+  insert(element, parentElement, index);
 }
 
 function createFragmentNodes(
   node: VDOMNodeFragment,
   parentElement: HTMLElement,
+  index: NodeIndex,
 ) {
-  node.children.forEach((child) => mountDOM(child, parentElement));
+  node.children.forEach((child) => {
+    const _index =
+      index !== null && typeof index !== 'undefined' ? index + 1 : null;
+    mountDOM(child, parentElement, _index);
+  });
   node.el = parentElement;
 }
 
-function createTextNode(node: VDOMNodeText, parentElement: HTMLElement) {
+function createTextNode(
+  node: VDOMNodeText,
+  parentElement: HTMLElement,
+  index: NodeIndex,
+) {
   const textNode = document.createTextNode(node.value);
   node.el = textNode;
-  parentElement.append(textNode);
+  insert(textNode, parentElement, index);
 }
 
 function addProps(

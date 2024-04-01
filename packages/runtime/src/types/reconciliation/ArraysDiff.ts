@@ -5,11 +5,11 @@ export interface ArraysDiff<T = any> {
   removed: T[];
 }
 
-export type ArraysDiffOp =
-  | ArraysDiffOpRemove
-  | ArraysDiffOpNoop
-  | ArraysDiffOpAdd
-  | ArraysDiffOpMove;
+export type ArraysDiffOp<T = any> =
+  | ArraysDiffOpRemove<T>
+  | ArraysDiffOpNoop<T>
+  | ArraysDiffOpAdd<T>
+  | ArraysDiffOpMove<T>;
 
 export interface ArraysDiffOpAdd<T = any> {
   op: ArrayDiffOpType.ADD;

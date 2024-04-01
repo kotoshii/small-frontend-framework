@@ -1,6 +1,8 @@
+import { VDOMNodeType } from '~constants/vdom';
 import { ComparatorFn } from '~types/ComparatorFn';
 import { ArraysDiff, ArraysDiffOp } from '~types/reconciliation/ArraysDiff';
 import { ObjectsDiff } from '~types/reconciliation/ObjectsDiff';
+import { SFFVDOMNode } from '~types/vdom/SFFVDOMNode';
 import { ArrayWithOriginalIndices } from '~utils/reconciliation/ArrayWithOriginalIndices';
 
 export function objectsDiff(
@@ -26,12 +28,27 @@ export function arraysDiff<T>(oldArray: T[], newArray: T[]): ArraysDiff {
   };
 }
 
+export function nodesEqual(nodeOne: SFFVDOMNode, nodeTwo: SFFVDOMNode) {
+  if (nodeOne.type !== nodeTwo.type) {
+    return false;
+  }
+
+  if (
+    nodeOne.type === VDOMNodeType.ELEMENT &&
+    nodeTwo.type === VDOMNodeType.ELEMENT
+  ) {
+    return nodeOne.tag === nodeTwo.tag;
+  }
+
+  return true;
+}
+
 export function arraysDiffSequence<T = any>(
   oldArray: T[],
   newArray: T[],
   equalsFn: ComparatorFn = (a, b) => a === b,
 ) {
-  const sequence: ArraysDiffOp[] = [];
+  const sequence: ArraysDiffOp<T>[] = [];
   const array = new ArrayWithOriginalIndices(oldArray, equalsFn);
 
   for (let index = 0; index < newArray.length; index++) {

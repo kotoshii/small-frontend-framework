@@ -28,6 +28,24 @@ function buildChildrenArray(children: SFFElement | SFFElement[]) {
   return convertToVDOMNodes(removeFalsyElements(toArray(children)));
 }
 
+export function extractChildren(vdom: SFFVDOMNode) {
+  if (vdom.type === VDOMNodeType.TEXT || !vdom.children) {
+    return [];
+  }
+
+  const children: SFFVDOMNode[] = [];
+
+  for (const child of vdom.children) {
+    if (child.type === VDOMNodeType.FRAGMENT) {
+      children.push(...extractChildren(child));
+    } else {
+      children.push(child);
+    }
+  }
+
+  return children;
+}
+
 function hElement(
   tag: string,
   props: VDOMNodeProps = {},

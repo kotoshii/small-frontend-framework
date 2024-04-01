@@ -1,6 +1,6 @@
 import { EventListenersMap } from '~types/EventListenersMap';
 
-function addEventListener(
+export function addEventListener(
   eventName: string,
   handler: EventListenerOrEventListenerObject,
   el: HTMLElement,
