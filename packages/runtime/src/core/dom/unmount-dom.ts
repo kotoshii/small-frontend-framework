@@ -34,6 +34,8 @@ function removeElementNode(node: VDOMNodeElement) {
     removeEventListeners(listeners, el);
     node.listeners = {};
 
+    // TODO: Check for possible memory leak - if element is removed from DOM before children are unmounted,
+    //  what will happen to their event listeners?
     el.remove();
     // node.el = null;
   }
