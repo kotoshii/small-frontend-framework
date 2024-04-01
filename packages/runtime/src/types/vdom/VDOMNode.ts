@@ -3,12 +3,7 @@ import { EventListenersMap } from '~types/EventListenersMap';
 import { SFFVDOMNode } from '~types/vdom/SFFVDOMNode';
 import { VDOMNodeProps } from '~types/vdom/VDOMNodeProps';
 
-export interface VDOMNode {
-  type: VDOMNodeType;
-  el: Node | null;
-}
-
-export interface VDOMNodeElement extends VDOMNode {
+export interface VDOMNodeElement {
   tag: string;
   props: VDOMNodeProps;
   children: SFFVDOMNode[];
@@ -17,13 +12,13 @@ export interface VDOMNodeElement extends VDOMNode {
   listeners: EventListenersMap;
 }
 
-export interface VDOMNodeFragment extends VDOMNode {
+export interface VDOMNodeFragment {
   type: VDOMNodeType.FRAGMENT;
   children: SFFVDOMNode[];
   el: HTMLElement | null;
 }
 
-export interface VDOMNodeText extends VDOMNode {
+export interface VDOMNodeText {
   type: VDOMNodeType.TEXT;
   value: string;
   el: Text | null;
