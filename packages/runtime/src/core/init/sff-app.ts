@@ -1,4 +1,5 @@
 import { mountDOM } from '~core/dom/mount-dom';
+import { patchDOM } from '~core/dom/patch-dom';
 import { unmountDOM } from '~core/dom/unmount-dom';
 import { Dispatcher } from '~core/state/dispatcher';
 import { GlobalState } from '~core/state/global-state';
@@ -48,10 +49,12 @@ export class SffApp {
     if (!this.root) {
       throw new Error('Cannot render app without root element provided');
     }
+
     if (this.vdom) {
-      unmountDOM(this.vdom);
+      this.vdom = patchDOM(this.vdom, this.view(), this.root);
+    } else {
+      this.vdom = this.view();
+      mountDOM(this.vdom, this.root);
     }
-    this.vdom = this.view();
-    mountDOM(this.vdom, this.root);
   }
 }
