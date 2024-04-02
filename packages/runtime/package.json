@@ -21,17 +21,22 @@
   "author": "kotoshii",
   "license": "GPL-3.0",
   "scripts": {
-    "build": "tsc",
-    "dev": "ts-node -r tsconfig-paths/register _dev_test.ts"
+    "build": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs"
   },
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.6",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
     "eslint": "^8.57.0",
     "eslint-plugin-simple-import-sort": "^12.0.0",
     "prettier": "^3.2.5",
+    "rollup": "^4.13.2",
+    "rollup-plugin-cleanup": "^3.2.1",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
+    "tslib": "^2.6.2",
     "typescript": "^5.4.2"
   },
   "dependencies": {}
