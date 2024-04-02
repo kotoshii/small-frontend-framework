@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo App Example</title>
+    <script src=></script>
+</head>
+<body>
+    <script type="module">
+      import {
+        createApp,
+        fragment,
+        getDispatcher,
+        getState,
+        h,
+      } from '../../dist/runtime/sff.js';
+
+      function App() {
+        const state = getState();
+        const d = getDispatcher();
+
+        const handleButtonClick = () => {
+          if (state.inputValue) {
+            d.dispatch('addTodo', state.inputValue);
+            d.dispatch('clearInput');
+          }
+        };
+
+        return fragment([
+          h('h1', {}, ['Todo list']),
+          h(
+            'ul',
+            {},
+            state.todos.map((todo) => h('li', {}, [todo])),
+          ),
+          h('input', {
+            placeholder: 'Enter todo text...',
+            on: {
+              change: (event) => d.dispatch('handleChangeInput', event.target.value),
+            },
+            value: state.inputValue,
+          }),
+          h('button', { on: { click: handleButtonClick } }, ['Add todo']),
+        ]);
+      }
+
+      createApp({
+        state: {
+          todos: [],
+          inputValue: '',
+        },
+        reducers: {
+          addTodo: (state, payload) => ({
+            ...state,
+            todos: [...state.todos, payload],
+          }),
+          handleChangeInput: (state, payload) => ({ ...state, inputValue: payload }),
+          clearInput: (state) => ({ ...state, inputValue: '' }),
+        },
+        view: App,
+      }).mount(document.body);
+
+    </script>
+</body>
+</html>
