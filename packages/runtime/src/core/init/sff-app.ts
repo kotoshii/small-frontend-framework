@@ -17,7 +17,7 @@ export class SffApp {
     const state = GlobalState.create(options.state);
     const dispatcher = Dispatcher.create();
 
-    this.subscriptions.push(dispatcher.onStateUpdate(this.render));
+    this.subscriptions.push(dispatcher.onStateUpdate(this.render.bind(this)));
 
     for (const actionName in options.reducers) {
       const reducer = options.reducers[actionName];
