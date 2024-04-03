@@ -10,19 +10,18 @@
       import {
         createApp,
         fragment,
-        getDispatcher,
-        getState,
+        getStore,
         h,
       } from '../../dist/runtime/sff.js';
 
       function App() {
-        const state = getState();
-        const d = getDispatcher();
+        const store = getStore();
+        const { data: state } = store;
 
         const handleButtonClick = () => {
           if (state.inputValue) {
-            d.dispatch('addTodo', state.inputValue);
-            d.dispatch('clearInput');
+            store.dispatch('addTodo', state.inputValue);
+            store.dispatch('clearInput');
           }
         };
 
@@ -36,7 +35,7 @@
           h('input', {
             placeholder: 'Enter todo text...',
             on: {
-              change: (event) => d.dispatch('handleChangeInput', event.target.value),
+              change: (event) => store.dispatch('handleChangeInput', event.target.value),
             },
             value: state.inputValue,
           }),
