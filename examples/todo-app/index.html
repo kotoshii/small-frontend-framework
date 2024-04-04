@@ -12,16 +12,20 @@
         fragment,
         getStore,
         h,
+        state,
       } from '../../dist/runtime/sff.js';
 
       function App() {
         const store = getStore();
-        const { data: state } = store;
+        const {
+          data: { todos },
+        } = store;
+        const [inputValue, setInputValue] = state('');
 
         const handleButtonClick = () => {
-          if (state.inputValue) {
-            store.dispatch('addTodo', state.inputValue);
-            store.dispatch('clearInput');
+          if (inputValue) {
+            store.dispatch('addTodo', inputValue);
+            setInputValue('');
           }
         };
 
@@ -30,14 +34,15 @@
           h(
             'ul',
             {},
-            state.todos.map((todo) => h('li', {}, [todo])),
+            todos.map((todo) => h('li', {}, [todo])),
           ),
           h('input', {
             placeholder: 'Enter todo text...',
+            type: 'text',
             on: {
-              change: (event) => store.dispatch('handleChangeInput', event.target.value),
+              change: (event) => setInputValue(event.target.value),
             },
-            value: state.inputValue,
+            value: inputValue,
           }),
           h('button', { on: { click: handleButtonClick } }, ['Add todo']),
         ]);
@@ -46,19 +51,15 @@
       createApp({
         state: {
           todos: [],
-          inputValue: '',
         },
         reducers: {
           addTodo: (state, payload) => ({
             ...state,
             todos: [...state.todos, payload],
           }),
-          handleChangeInput: (state, payload) => ({ ...state, inputValue: payload }),
-          clearInput: (state) => ({ ...state, inputValue: '' }),
         },
         view: App,
       }).mount(document.body);
-
     </script>
 </body>
 </html>
