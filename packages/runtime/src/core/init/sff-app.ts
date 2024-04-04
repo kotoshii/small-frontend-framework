@@ -18,7 +18,7 @@ export class SffApp {
   private localStateManager: LocalStateManager;
 
   constructor(options: CreateAppOptions) {
-    const state = GlobalState.create(options.state);
+    const globalState = GlobalState.create(options.state);
     const dispatcher = Dispatcher.create();
 
     this.localStateManager = LocalStateManager.create();
@@ -31,7 +31,7 @@ export class SffApp {
     for (const actionName in options.reducers) {
       const reducer = options.reducers[actionName];
       const subscription = dispatcher.subscribe(actionName, (payload) => {
-        state.set(reducer(state.get(), payload));
+        globalState.set(reducer(globalState.get(), payload));
       });
       this.subscriptions.push(subscription);
     }
