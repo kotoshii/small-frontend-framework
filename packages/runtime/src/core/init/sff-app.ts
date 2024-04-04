@@ -3,6 +3,7 @@ import { patchDOM } from '~core/dom/patch-dom';
 import { unmountDOM } from '~core/dom/unmount-dom';
 import { Dispatcher } from '~core/state/dispatcher';
 import { GlobalState } from '~core/state/global-state';
+import { LocalStateManager } from '~core/state/local-state';
 import { ComponentFunction } from '~types/ComponentFunction';
 import { CreateAppOptions } from '~types/CreateAppOptions';
 import { SFFVDOMNode } from '~types/vdom/SFFVDOMNode';
@@ -14,11 +15,18 @@ export class SffApp {
   private subscriptions: VoidCallback[] = [];
   private readonly view: ComponentFunction;
 
+  private localStateManager: LocalStateManager;
+
   constructor(options: CreateAppOptions) {
     const state = GlobalState.create(options.state);
     const dispatcher = Dispatcher.create();
 
-    this.subscriptions.push(dispatcher.onStateUpdate(this.render.bind(this)));
+    this.localStateManager = LocalStateManager.create();
+
+    this.subscriptions.push(
+      dispatcher.onStateUpdate(this.render.bind(this)),
+      this.localStateManager.onStateUpdate(this.render.bind(this)),
+    );
 
     for (const actionName in options.reducers) {
       const reducer = options.reducers[actionName];
@@ -49,6 +57,8 @@ export class SffApp {
     if (!this.root) {
       throw new Error('Cannot render app without root element provided');
     }
+
+    this.localStateManager.resetCallIndex();
 
     if (this.vdom) {
       this.vdom = patchDOM(this.vdom, this.view(), this.root);

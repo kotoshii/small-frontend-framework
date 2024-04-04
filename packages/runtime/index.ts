@@ -1,6 +1,7 @@
 export { fragment, h } from '~core/h';
 export { createApp } from '~core/init/create-app';
 export { getStore } from '~core/state/global-state';
+export { state } from '~core/state/local-state';
 export { SFFElement } from '~types/SFFElement';
 
 /*
