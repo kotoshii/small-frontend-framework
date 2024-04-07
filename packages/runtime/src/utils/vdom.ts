@@ -1,4 +1,4 @@
-import { _SFFElementTruthy, SFFElement } from '~types/SFFElement';
+import { _SFFElementTruthy, SFFElement } from '~types/vdom/SFFElement';
 
 export function isElementFalsy(element: SFFElement) {
   return (

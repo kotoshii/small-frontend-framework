@@ -5,7 +5,7 @@ import { Dispatcher } from '~core/state/dispatcher';
 import { GlobalState } from '~core/state/global-state';
 import { LocalStateManager } from '~core/state/local-state';
 import { ComponentFunction } from '~types/ComponentFunction';
-import { CreateAppOptions } from '~types/CreateAppOptions';
+import { CreateAppOptions } from '~types/init/CreateAppOptions';
 import { SFFVDOMNode } from '~types/vdom/SFFVDOMNode';
 import { VoidCallback } from '~types/VoidCallback';
 
@@ -13,7 +13,7 @@ export class SffApp {
   private root: HTMLElement | null = null;
   private vdom: SFFVDOMNode | null = null;
   private subscriptions: VoidCallback[] = [];
-  private readonly view: ComponentFunction;
+  private readonly view: ComponentFunction<never>;
 
   private localStateManager: LocalStateManager;
 

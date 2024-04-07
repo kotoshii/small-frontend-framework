@@ -1,5 +1,5 @@
 import { VDOMNodeType } from '~constants/vdom';
-import { EventListenersMap } from '~types/EventListenersMap';
+import { EventListenersMap } from '~types/vdom/EventListenersMap';
 import { SFFVDOMNode } from '~types/vdom/SFFVDOMNode';
 import { VDOMNodeProps } from '~types/vdom/VDOMNodeProps';
 

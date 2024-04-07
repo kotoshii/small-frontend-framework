@@ -1,5 +1,5 @@
 import { VDOMNodeType } from '~constants/vdom';
-import { _SFFElementTruthy, SFFElement } from '~types/SFFElement';
+import { _SFFElementTruthy, SFFElement } from '~types/vdom/SFFElement';
 import { SFFVDOMNode } from '~types/vdom/SFFVDOMNode';
 import {
   VDOMNodeElement,

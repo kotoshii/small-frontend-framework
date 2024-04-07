@@ -1,6 +1,6 @@
 import { VDOMNodeType } from '~constants/vdom';
-import { ComparatorFn } from '~types/ComparatorFn';
 import { ArraysDiff, ArraysDiffOp } from '~types/reconciliation/ArraysDiff';
+import { ComparatorFn } from '~types/reconciliation/ComparatorFn';
 import { ObjectsDiff } from '~types/reconciliation/ObjectsDiff';
 import { SFFVDOMNode } from '~types/vdom/SFFVDOMNode';
 import { ArrayWithOriginalIndices } from '~utils/reconciliation/ArrayWithOriginalIndices';

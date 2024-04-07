@@ -1,11 +1,11 @@
 import { ArrayDiffOpType } from '~constants/reconciliation';
-import { ComparatorFn } from '~types/ComparatorFn';
 import {
   ArraysDiffOpAdd,
   ArraysDiffOpMove,
   ArraysDiffOpNoop,
   ArraysDiffOpRemove,
 } from '~types/reconciliation/ArraysDiff';
+import { ComparatorFn } from '~types/reconciliation/ComparatorFn';
 
 export class ArrayWithOriginalIndices<T = any> {
   private readonly array: T[] = [];

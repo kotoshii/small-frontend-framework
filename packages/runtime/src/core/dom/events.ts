@@ -1,4 +1,4 @@
-import { EventListenersMap } from '~types/EventListenersMap';
+import { EventListenersMap } from '~types/vdom/EventListenersMap';
 
 export function addEventListener(
   eventName: string,

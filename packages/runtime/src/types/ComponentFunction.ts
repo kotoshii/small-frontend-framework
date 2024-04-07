@@ -1,5 +1,5 @@
-import { SFFVDOMNode } from '~types/vdom/SFFVDOMNode';
+import { SFFVDOMNodeWithChildren } from '~types/vdom/SFFVDOMNode';
 
-export type ComponentFunction = (
-  props?: Record<string, unknown>,
-) => SFFVDOMNode;
+export type ComponentFunction<TProps> = (
+  props?: TProps,
+) => SFFVDOMNodeWithChildren;
