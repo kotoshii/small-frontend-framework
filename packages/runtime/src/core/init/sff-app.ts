@@ -4,7 +4,7 @@ import { mountDOM } from '~core/dom/mount-dom';
 import { patchDOM } from '~core/dom/patch-dom';
 import { unmountDOM } from '~core/dom/unmount-dom';
 import { Dispatcher } from '~core/state/dispatcher';
-import { GlobalState } from '~core/state/global-state';
+import { GlobalState, Store } from '~core/state/global-state';
 import { CreateAppOptions } from '~types/init/CreateAppOptions';
 import { SFFVDOMNode } from '~types/vdom/SFFVDOMNode';
 import { VoidCallback } from '~types/VoidCallback';
@@ -23,6 +23,8 @@ export class SffApp {
     const globalState = GlobalState.create(options.state);
     const dispatcher = Dispatcher.create();
 
+    const store = Store.create();
+
     for (const actionName in options.reducers) {
       const reducer = options.reducers[actionName];
       const subscription = dispatcher.subscribe(actionName, (payload) => {
@@ -31,7 +33,7 @@ export class SffApp {
       this.subscriptions.push(subscription);
     }
 
-    this.view = new options.view();
+    this.view = new options.view({ store });
   }
 
   mount(root: HTMLElement) {

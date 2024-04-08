@@ -1,8 +1,12 @@
 import { InternalEvent } from '~constants/internal-event';
+import { DefaultComponentProps } from '~types/component/DefaultComponentProps';
 import { SFFVDOMNodeWithChildren } from '~types/vdom/SFFVDOMNode';
 import { EventBus } from '~utils/event-bus';
 
-export abstract class Component<TProps = unknown, TState = unknown> {
+export abstract class Component<
+  TProps extends DefaultComponentProps = DefaultComponentProps,
+  TState = unknown,
+> {
   private eventBus = EventBus.instance();
 
   public props: TProps;

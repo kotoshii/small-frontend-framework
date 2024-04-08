@@ -30,7 +30,7 @@ export class GlobalState {
   }
 }
 
-class Store {
+export class Store {
   private static _instance: Store | null = null;
   private _globalState: GlobalState;
   private _dispatcher: Dispatcher;
@@ -50,11 +50,15 @@ class Store {
     this._dispatcher = dispatcher;
   }
 
-  static instance() {
+  static create() {
     if (!this._instance) {
       this._instance = new Store();
     }
 
+    return this._instance;
+  }
+
+  static instance() {
     return this._instance;
   }
 
@@ -69,8 +73,4 @@ class Store {
   subscribe(action: string, handler: StateActionHandler) {
     return this._dispatcher.subscribe(action, handler);
   }
-}
-
-export function getStore() {
-  return Store.instance();
 }
