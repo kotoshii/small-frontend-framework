@@ -1,11 +1,13 @@
+import { InternalEvent } from '~constants/internal-event';
 import { StateActionHandler } from '~types/state/StateActionHandler';
 import { VoidCallback } from '~types/VoidCallback';
+import { EventBus } from '~utils/event-bus';
 
 export class Dispatcher {
   private static _instance: Dispatcher | null = null;
 
+  private eventBus = EventBus.instance();
   private readonly subscriptions = new Map<string, StateActionHandler[]>();
-  private updateHandlers: VoidCallback[] = [];
 
   static create() {
     if (!this._instance) {
@@ -37,17 +39,8 @@ export class Dispatcher {
     };
   }
 
-  onStateUpdate(handler: VoidCallback) {
-    this.updateHandlers.push(handler);
-
-    return () => {
-      const index = this.updateHandlers.indexOf(handler);
-      this.updateHandlers.splice(index, 1);
-    };
-  }
-
   dispatch<T>(action: string, payload: T) {
     this.subscriptions.get(action)?.forEach((handler) => handler(payload));
-    this.updateHandlers.forEach((handler) => handler());
+    this.eventBus.emit(InternalEvent.RenderVDOM);
   }
 }
