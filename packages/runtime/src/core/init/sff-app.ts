@@ -1,10 +1,10 @@
 import { InternalEvent } from '~constants/internal-event';
+import { Component } from '~core/component';
 import { mountDOM } from '~core/dom/mount-dom';
 import { patchDOM } from '~core/dom/patch-dom';
 import { unmountDOM } from '~core/dom/unmount-dom';
 import { Dispatcher } from '~core/state/dispatcher';
 import { GlobalState } from '~core/state/global-state';
-import { ComponentFunction } from '~types/ComponentFunction';
 import { CreateAppOptions } from '~types/init/CreateAppOptions';
 import { SFFVDOMNode } from '~types/vdom/SFFVDOMNode';
 import { VoidCallback } from '~types/VoidCallback';
@@ -14,9 +14,7 @@ export class SffApp {
   private root: HTMLElement | null = null;
   private vdom: SFFVDOMNode | null = null;
   private subscriptions: VoidCallback[] = [];
-  private readonly view: ComponentFunction<never>;
-
-  private localStateManager: LocalStateManager;
+  private readonly view: Component;
 
   constructor(options: CreateAppOptions) {
     const eventBus = EventBus.instance();
@@ -33,7 +31,7 @@ export class SffApp {
       this.subscriptions.push(subscription);
     }
 
-    this.view = options.view;
+    this.view = new options.view();
   }
 
   mount(root: HTMLElement) {
@@ -56,9 +54,9 @@ export class SffApp {
     }
 
     if (this.vdom) {
-      this.vdom = patchDOM(this.vdom, this.view(), this.root);
+      this.vdom = patchDOM(this.vdom, this.view.render(), this.root);
     } else {
-      this.vdom = this.view();
+      this.vdom = this.view.render();
       mountDOM(this.vdom, this.root);
     }
   }
