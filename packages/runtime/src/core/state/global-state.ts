@@ -14,10 +14,6 @@ export class GlobalState {
     return this._instance;
   }
 
-  static instance() {
-    return this._instance;
-  }
-
   get() {
     return this._state;
   }

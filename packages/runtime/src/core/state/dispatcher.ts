@@ -17,10 +17,6 @@ export class Dispatcher {
     return this._instance;
   }
 
-  static instance() {
-    return this._instance;
-  }
-
   subscribe(action: string, handler: StateActionHandler): VoidCallback {
     if (!this.subscriptions.has(action)) {
       this.subscriptions.set(action, []);

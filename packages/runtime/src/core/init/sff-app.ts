@@ -21,10 +21,12 @@ export class SffApp {
     const eventBus = EventBus.instance();
     eventBus.on(InternalEvent.RenderVDOM, this.render.bind(this));
 
+    const eventBus = EventBus.create();
     const globalState = GlobalState.create(options.state);
     const dispatcher = Dispatcher.create();
+    Store.create(globalState, dispatcher);
 
-    const store = Store.create();
+    eventBus.on(InternalEvent.RenderVDOM, this.render.bind(this));
 
     for (const actionName in options.reducers) {
       const reducer = options.reducers[actionName];

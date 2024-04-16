@@ -7,30 +7,24 @@ export class Store {
   private _globalState: GlobalState;
   private _dispatcher: Dispatcher;
 
-  constructor() {
-    const globalState = GlobalState.instance();
-    const dispatcher = Dispatcher.instance();
-
-    if (!globalState) {
-      throw new Error('Cannot use store before initialization');
-    }
-    if (!dispatcher) {
-      throw new Error('Cannot use dispatcher before initialization');
-    }
-
+  constructor(globalState: GlobalState, dispatcher: Dispatcher) {
     this._globalState = globalState;
     this._dispatcher = dispatcher;
   }
 
-  static create() {
+  static create(globalState: GlobalState, dispatcher: Dispatcher) {
     if (!this._instance) {
-      this._instance = new Store();
+      this._instance = new Store(globalState, dispatcher);
     }
 
     return this._instance;
   }
 
   static instance() {
+    if (!this._instance) {
+      throw new Error('Cannot use global store before app initialization');
+    }
+
     return this._instance;
   }
 
