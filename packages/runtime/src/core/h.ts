@@ -1,7 +1,17 @@
 import { VDOMNodeType } from '~constants/vdom';
+import { Component } from '~core/components/component';
+import { ComponentClass } from '~types/components/ComponentClass';
+import { PropsWithoutDefault } from '~types/components/PropsWithoutDefault';
+import {
+  HyperscriptFunction,
+  HyperscriptPropsType,
+  HyperscriptReturnType,
+  HyperscriptTagType,
+} from '~types/HyperscriptFunction';
 import { _SFFElementTruthy, SFFElement } from '~types/vdom/SFFElement';
 import { SFFVDOMNode } from '~types/vdom/SFFVDOMNode';
 import {
+  VDOMNodeComponent,
   VDOMNodeElement,
   VDOMNodeFragment,
   VDOMNodeText,
@@ -46,6 +56,41 @@ export function extractChildren(vdom: SFFVDOMNode) {
   return children;
 }
 
+const h: HyperscriptFunction = <T extends Component | string = string>(
+  tagOrComponent: HyperscriptTagType<T>,
+  props?: HyperscriptPropsType<T>,
+  children?: SFFElement | SFFElement[],
+) => {
+  if (typeof tagOrComponent === 'string') {
+    return hElement(
+      tagOrComponent,
+      props,
+      children,
+    ) as HyperscriptReturnType<T>;
+  }
+
+  return hComponent(
+    tagOrComponent,
+    props,
+    children,
+  ) as HyperscriptReturnType<T>;
+};
+
+function hComponent<T extends Component>(
+  componentClass: ComponentClass<T>,
+  props: PropsWithoutDefault<T> = {} as PropsWithoutDefault<T>,
+  children: SFFElement | SFFElement[] = [],
+): VDOMNodeComponent<T> {
+  return {
+    type: VDOMNodeType.COMPONENT,
+    componentClass,
+    props,
+    children: buildChildrenArray(children),
+    instance: null,
+    el: null,
+  };
+}
+
 function hElement(
   tag: string,
   props: VDOMNodeProps = {},
@@ -77,4 +122,4 @@ function hFragment(children: SFFElement | SFFElement[] = []): VDOMNodeFragment {
   };
 }
 
-export { hFragment as fragment, hElement as h };
+export { hFragment as fragment, h };
