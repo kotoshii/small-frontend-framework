@@ -1,4 +1,1 @@
-export type ReducerFunction<TState = unknown, TPayload = unknown> = (
-  state: TState,
-  payload: TPayload,
-) => TState;
+export type ReducerFunction<State> = (state: State, payload: any) => State;
