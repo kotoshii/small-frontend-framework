@@ -1,8 +1,13 @@
-import { VDOMNodeElement, VDOMNodeFragment } from '~types/vdom/VDOMNode';
+import {
+  VDOMNodeComponent,
+  VDOMNodeElement,
+  VDOMNodeFragment,
+} from '~types/vdom/VDOMNode';
 
 // Values that can be passed as children
 export type SFFElement =
   | VDOMNodeElement
+  | VDOMNodeComponent
   | VDOMNodeFragment
   | string
   | number

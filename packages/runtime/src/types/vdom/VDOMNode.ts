@@ -1,4 +1,7 @@
 import { VDOMNodeType } from '~constants/vdom';
+import { Component } from '~core/components/component';
+import { ComponentClass } from '~types/components/ComponentClass';
+import { PropsWithoutDefault } from '~types/components/PropsWithoutDefault';
 import { EventListenersMap } from '~types/vdom/EventListenersMap';
 import { SFFVDOMNode } from '~types/vdom/SFFVDOMNode';
 import { VDOMNodeProps } from '~types/vdom/VDOMNodeProps';
@@ -22,4 +25,13 @@ export interface VDOMNodeText {
   type: VDOMNodeType.TEXT;
   value: string;
   el: Text | null;
+}
+
+export interface VDOMNodeComponent<T extends Component = any> {
+  type: VDOMNodeType.COMPONENT;
+  componentClass: ComponentClass<T>;
+  props?: PropsWithoutDefault<T>;
+  children: SFFVDOMNode[];
+  instance: T | null;
+  el: HTMLElement | null;
 }
