@@ -1,8 +1,14 @@
 import { VDOMNodeType } from '~constants/vdom';
+import { Component } from '~core/components/component';
 import { setAttributes } from '~core/dom/attributes';
 import { addEventListeners } from '~core/dom/events';
+import { Store } from '~core/state/store';
+import { ComponentClass } from '~types/components/ComponentClass';
+import { PropsWithoutDefault } from '~types/components/PropsWithoutDefault';
+import { SFFElement } from '~types/vdom/SFFElement';
 import { SFFVDOMNode } from '~types/vdom/SFFVDOMNode';
 import {
+  VDOMNodeComponent,
   VDOMNodeElement,
   VDOMNodeFragment,
   VDOMNodeText,
@@ -29,10 +35,22 @@ export function mountDOM(
       createTextNode(node, parentElement, index);
       break;
     }
+    case VDOMNodeType.COMPONENT: {
+      createComponentNode(node, parentElement, index);
+      break;
+    }
     default: {
       throw new Error(`Couldn't mount VDOM Node. Received: ${node}`);
     }
   }
+}
+
+function createComponentInstance<T extends Component>(
+  cls: ComponentClass<T>,
+  props: PropsWithoutDefault<T> = {} as PropsWithoutDefault<T>,
+  children: SFFElement[] = [],
+) {
+  return new cls({ store: Store.instance(), children, ...props });
 }
 
 function insert(
@@ -89,6 +107,25 @@ function createTextNode(
   const textNode = document.createTextNode(node.value);
   node.el = textNode;
   insert(textNode, parentElement, index);
+}
+
+function createComponentNode(
+  node: VDOMNodeComponent,
+  parentElement: HTMLElement,
+  index: NodeIndex,
+) {
+  const instance = createComponentInstance(
+    node.componentClass,
+    node.props,
+    node.children,
+  );
+
+  node.el = parentElement;
+  node.instance = instance;
+
+  const vdom = instance.render();
+
+  mountDOM(vdom, parentElement, index);
 }
 
 function addProps(
