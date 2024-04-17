@@ -1,7 +1,10 @@
+import { Component } from '~core/components/component';
+import { ComponentClass } from '~core/components/types/ComponentClass';
 import { VDOMNodeType } from '~core/vdom/constants/VDOMNodeType';
 import { SFFElement } from '~core/vdom/types/SFFElement';
 import { SFFNode } from '~core/vdom/types/SFFNode';
 import {
+  VDOMNodeComponent,
   VDOMNodeElement,
   VDOMNodeElementProps,
   VDOMNodeFragment,
@@ -62,6 +65,21 @@ export function hFragment(
   return {
     type: VDOMNodeType.FRAGMENT,
     children: createChildrenArray(children),
+    el: null,
+  };
+}
+
+export function hComponent<T extends Component>(
+  componentClass: ComponentClass<T>,
+  props = {},
+  children: MaybeArray<SFFNode> = [],
+): VDOMNodeComponent<T> {
+  return {
+    type: VDOMNodeType.COMPONENT,
+    componentClass,
+    props,
+    children: toArray<SFFNode>(children),
+    instance: null,
     el: null,
   };
 }

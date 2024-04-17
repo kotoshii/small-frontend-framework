@@ -1,7 +1,9 @@
+import { Component } from '~core/components/component';
+import { ComponentClass } from '~core/components/types/ComponentClass';
 import { VDOMNodeType } from '~core/vdom/constants/VDOMNodeType';
 import { EventListenersMap } from '~core/vdom/types/EventListenersMap';
 import { SFFElement } from '~core/vdom/types/SFFElement';
-// import { SFFNode } from '~core/vdom/types/SFFNode';
+import { SFFNode } from '~core/vdom/types/SFFNode';
 
 export interface VDOMNodeElementProps {
   on?: EventListenersMap;
@@ -29,11 +31,11 @@ export interface VDOMNodeText {
   el: Text | null;
 }
 
-// export interface VDOMNodeComponent<T extends Component = any> {
-//   type: VDOMNodeType.COMPONENT;
-//   componentClass: ComponentClass<T>;
-//   props?: PropsWithoutDefault<T>;
-//   children: SFFNode[];
-//   instance: T | null;
-//   el: HTMLElement | null;
-// }
+export interface VDOMNodeComponent<T extends Component> {
+  type: VDOMNodeType.COMPONENT;
+  componentClass: ComponentClass<T>;
+  props: Record<string, any>; // TODO: Change to real type once Props support is added
+  children: SFFNode[];
+  instance: T | null;
+  el: HTMLElement | null;
+}
