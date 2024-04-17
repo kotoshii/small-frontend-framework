@@ -9,4 +9,4 @@ export type SFFElement =
   | VDOMNodeElement
   | VDOMNodeFragment
   | VDOMNodeText
-  | VDOMNodeComponent<any>;
+  | VDOMNodeComponent;

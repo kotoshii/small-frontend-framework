@@ -31,7 +31,7 @@ export interface VDOMNodeText {
   el: Text | null;
 }
 
-export interface VDOMNodeComponent<T extends Component> {
+export interface VDOMNodeComponent<T extends Component = Component> {
   type: VDOMNodeType.COMPONENT;
   componentClass: ComponentClass<T>;
   props: Record<string, any>; // TODO: Change to real type once Props support is added
