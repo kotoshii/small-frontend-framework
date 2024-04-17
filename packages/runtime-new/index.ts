@@ -9,7 +9,10 @@
  * */
 
 import { Component } from '~core/components/component';
+import { mount } from '~core/render/mount';
 import { hComponent, hElement, hFragment } from '~core/vdom/h';
+
+export { hElement, hFragment, mount };
 
 class Header extends Component {
   render() {

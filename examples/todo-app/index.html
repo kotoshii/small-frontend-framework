@@ -8,72 +8,22 @@
 <body>
     <script type="module">
       import {
-        createApp,
-        fragment,
-        h,
+        mount, hElement, hFragment
       } from '../../dist/runtime/sff.js';
 
-      class TodoItem extends Component {
-        render() {
-          return h('li', {}, [this.props.todo, new Date().toString()])
-        }
-      }
+      const vnode = hFragment([
+        hFragment(['ffffff']),
+        hElement('h1', { style: { fontSize: '100px' } }, ['Hello!!!']),
+        hElement('p', {}, ['Some description text lalalaala!!!']),
+        hElement('div', {}, [
+          hElement('button', { on: { click: () => { console.log('clicked') } } }, ['Click me!']),
+        ]),
+        null,
+        'string',
+        123,
+      ]);
 
-      class App extends Component {
-        constructor(props) {
-          super(props);
-          console.log('render')
-        }
-
-        state = {
-          inputValue: '',
-        }
-
-        handleButtonClick = () => {
-          this.props.store.dispatch('addTodo', this.state.inputValue)
-          this.setInputValue('');
-        }
-
-        setInputValue(value) {
-          console.log(value)
-          this.setState({ inputValue: value })
-        }
-
-        render() {
-          const { inputValue } = this.state
-          const { data: { todos } } = this.props.store;
-          return fragment([
-            h('h1', {}, ['Todo list']),
-            h(
-              'ul',
-              {},
-              todos.map((todo) => h(TodoItem, { todo })),
-            ),
-            h('input', {
-              placeholder: 'Enter todo text...',
-              type: 'text',
-              on: {
-                input: (event) => this.setInputValue(event.target.value),
-              },
-              value: inputValue,
-            }),
-            h('button', { on: { click: this.handleButtonClick } }, ['Add todo']),
-          ]);
-        }
-      }
-
-      createApp({
-        state: {
-          todos: [],
-        },
-        reducers: {
-          addTodo: (state, payload) => ({
-            ...state,
-            todos: [...state.todos, payload],
-          }),
-        },
-        view: App,
-      }).mount(document.body);
+      mount(vnode, document.body)
     </script>
 </body>
 </html>
