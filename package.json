@@ -12,8 +12,7 @@
   "private": true,
   "workspaces": [
     "packages/runtime",
-    "packages/compiler",
-    "packages/loader"
+    "packages/cli"
   ]
 
 }
