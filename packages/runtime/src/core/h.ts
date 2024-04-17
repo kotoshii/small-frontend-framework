@@ -39,7 +39,11 @@ function buildChildrenArray(children: SFFElement | SFFElement[]) {
 }
 
 export function extractChildren(vdom: SFFVDOMNode) {
-  if (vdom.type === VDOMNodeType.TEXT || !vdom.children) {
+  if (
+    vdom.type === VDOMNodeType.TEXT ||
+    vdom.type === VDOMNodeType.COMPONENT ||
+    !vdom.children
+  ) {
     return [];
   }
 
@@ -85,7 +89,7 @@ function hComponent<T extends Component>(
     type: VDOMNodeType.COMPONENT,
     componentClass,
     props,
-    children: buildChildrenArray(children),
+    children: toArray<SFFElement>(children),
     instance: null,
     el: null,
   };
@@ -122,4 +126,4 @@ function hFragment(children: SFFElement | SFFElement[] = []): VDOMNodeFragment {
   };
 }
 
-export { hFragment as fragment, h };
+export { hFragment as fragment, h, hString as textNode };

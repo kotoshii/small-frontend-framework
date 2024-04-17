@@ -12,7 +12,11 @@ import { unmountDOM } from '~core/dom/unmount-dom';
 import { extractChildren } from '~core/h';
 import { EventListenersMap } from '~types/vdom/EventListenersMap';
 import { SFFVDOMNode, SFFVDOMNodeWithChildren } from '~types/vdom/SFFVDOMNode';
-import { VDOMNodeElement, VDOMNodeText } from '~types/vdom/VDOMNode';
+import {
+  VDOMNodeComponent,
+  VDOMNodeElement,
+  VDOMNodeText,
+} from '~types/vdom/VDOMNode';
 import {
   arraysDiff,
   arraysDiffSequence,
@@ -42,6 +46,10 @@ export function patchDOM(
     }
     case VDOMNodeType.ELEMENT: {
       patchElement(oldVdom as VDOMNodeElement, newVdom);
+      break;
+    }
+    case VDOMNodeType.COMPONENT: {
+      patchComponent(oldVdom as VDOMNodeComponent, newVdom);
       break;
     }
   }
@@ -78,6 +86,13 @@ function patchElement(oldVdom: VDOMNodeElement, newVdom: VDOMNodeElement) {
   patchStyles(el, oldStyle, newStyle);
 
   newVdom.listeners = patchEvents(el, oldListeners, oldEvents, newEvents);
+}
+
+function patchComponent(
+  oldVdom: VDOMNodeComponent,
+  newVdom: VDOMNodeComponent,
+) {
+  newVdom.instance.state = oldVdom.instance.state;
 }
 
 function patchAttrs(

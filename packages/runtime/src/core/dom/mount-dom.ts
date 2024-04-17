@@ -123,9 +123,7 @@ function createComponentNode(
   node.el = parentElement;
   node.instance = instance;
 
-  const vdom = instance.render();
-
-  mountDOM(vdom, parentElement, index);
+  instance.mount(parentElement, index);
 }
 
 function addProps(

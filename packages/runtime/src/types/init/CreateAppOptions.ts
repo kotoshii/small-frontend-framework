@@ -1,8 +1,9 @@
-import { ComponentClass } from '~types/component/ComponentClass';
+import { Component } from '~core/components/component';
+import { ComponentClass } from '~types/components/ComponentClass';
 import { ReducerFunction } from '~types/state/ReducerFunction';
 
-export interface CreateAppOptions<TState = unknown> {
-  state?: TState;
-  reducers?: Record<string, ReducerFunction<TState>>;
-  view: ComponentClass<any>;
+export interface CreateAppOptions<State, RootComponent extends Component> {
+  state?: State;
+  reducers?: Record<string, ReducerFunction<State>>;
+  view: ComponentClass<RootComponent>;
 }

@@ -40,6 +40,13 @@ export function nodesEqual(nodeOne: SFFVDOMNode, nodeTwo: SFFVDOMNode) {
     return nodeOne.tag === nodeTwo.tag;
   }
 
+  if (
+    nodeOne.type === VDOMNodeType.COMPONENT &&
+    nodeTwo.type === VDOMNodeType.COMPONENT
+  ) {
+    return nodeOne.componentClass === nodeTwo.componentClass;
+  }
+
   return true;
 }
 
