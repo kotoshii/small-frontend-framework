@@ -10,42 +10,56 @@
       import {
         createApp,
         fragment,
-        getStore,
         h,
-        state,
       } from '../../dist/runtime/sff.js';
 
-      function App() {
-        const store = getStore();
-        const {
-          data: { todos },
-        } = store;
-        const [inputValue, setInputValue] = state('');
+      class TodoItem extends Component {
+        render() {
+          return h('li', {}, [this.props.todo, new Date().toString()])
+        }
+      }
 
-        const handleButtonClick = () => {
-          if (inputValue) {
-            store.dispatch('addTodo', inputValue);
-            setInputValue('');
-          }
-        };
+      class App extends Component {
+        constructor(props) {
+          super(props);
+          console.log('render')
+        }
 
-        return fragment([
-          h('h1', {}, ['Todo list']),
-          h(
-            'ul',
-            {},
-            todos.map((todo) => h('li', {}, [todo])),
-          ),
-          h('input', {
-            placeholder: 'Enter todo text...',
-            type: 'text',
-            on: {
-              change: (event) => setInputValue(event.target.value),
-            },
-            value: inputValue,
-          }),
-          h('button', { on: { click: handleButtonClick } }, ['Add todo']),
-        ]);
+        state = {
+          inputValue: '',
+        }
+
+        handleButtonClick = () => {
+          this.props.store.dispatch('addTodo', this.state.inputValue)
+          this.setInputValue('');
+        }
+
+        setInputValue(value) {
+          console.log(value)
+          this.setState({ inputValue: value })
+        }
+
+        render() {
+          const { inputValue } = this.state
+          const { data: { todos } } = this.props.store;
+          return fragment([
+            h('h1', {}, ['Todo list']),
+            h(
+              'ul',
+              {},
+              todos.map((todo) => h(TodoItem, { todo })),
+            ),
+            h('input', {
+              placeholder: 'Enter todo text...',
+              type: 'text',
+              on: {
+                input: (event) => this.setInputValue(event.target.value),
+              },
+              value: inputValue,
+            }),
+            h('button', { on: { click: this.handleButtonClick } }, ['Add todo']),
+          ]);
+        }
       }
 
       createApp({
