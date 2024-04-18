@@ -1,5 +1,6 @@
 import { setAttributes } from '~core/render/attributes';
 import { addEventListeners } from '~core/render/events';
+import { NodeIndex } from '~core/render/types/NodeIndex';
 import { VDOMNodeType } from '~core/vdom/constants/VDOMNodeType';
 import { SFFElement } from '~core/vdom/types/SFFElement';
 import {
@@ -7,8 +8,6 @@ import {
   VDOMNodeFragment,
   VDOMNodeText,
 } from '~core/vdom/types/VDOMNode';
-
-type NodeIndex = number | null | undefined;
 
 export function mount(
   vnode: SFFElement,
