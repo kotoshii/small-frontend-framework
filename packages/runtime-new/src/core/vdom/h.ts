@@ -1,5 +1,6 @@
 import { Component } from '~core/components/component';
 import { ComponentClass } from '~core/components/types/ComponentClass';
+import { PropsWithoutDefault } from '~core/components/types/ComponentProps';
 import { VDOMNodeType } from '~core/vdom/constants/VDOMNodeType';
 import { NonEmptyNode } from '~core/vdom/types/NonEmptyNode';
 import { SFFElement } from '~core/vdom/types/SFFElement';
@@ -65,7 +66,7 @@ export function hFragment(
 
 export function hComponent<T extends Component>(
   componentClass: ComponentClass<T>,
-  props = {},
+  props: PropsWithoutDefault<T> = {} as PropsWithoutDefault<T>,
   children: MaybeArray<SFFNode> = [],
 ): VDOMNodeComponent<T> {
   return {

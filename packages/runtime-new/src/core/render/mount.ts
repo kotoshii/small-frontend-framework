@@ -102,8 +102,8 @@ function mountComponentNode(
   parentElement: HTMLElement,
   index: NodeIndex,
 ) {
-  const { componentClass } = node;
-  const instance = new componentClass();
+  const { componentClass, props } = node;
+  const instance = new componentClass(props);
 
   node.instance = instance;
   node.el = parentElement;
