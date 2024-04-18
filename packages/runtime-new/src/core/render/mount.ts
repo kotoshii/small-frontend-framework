@@ -4,6 +4,7 @@ import { NodeIndex } from '~core/render/types/NodeIndex';
 import { VDOMNodeType } from '~core/vdom/constants/VDOMNodeType';
 import { SFFElement } from '~core/vdom/types/SFFElement';
 import {
+  VDOMNodeComponent,
   VDOMNodeElement,
   VDOMNodeFragment,
   VDOMNodeText,
@@ -25,6 +26,10 @@ export function mount(
     }
     case VDOMNodeType.TEXT: {
       mountTextNode(vnode, parentElement, index);
+      break;
+    }
+    case VDOMNodeType.COMPONENT: {
+      mountComponentNode(vnode, parentElement, index);
       break;
     }
     default: {
@@ -90,4 +95,18 @@ function mountTextNode(
   node.el = textNode;
 
   insert(textNode, parentElement, index);
+}
+
+function mountComponentNode(
+  node: VDOMNodeComponent,
+  parentElement: HTMLElement,
+  index: NodeIndex,
+) {
+  const { componentClass } = node;
+  const instance = new componentClass();
+
+  node.instance = instance;
+  node.el = parentElement;
+
+  instance.mount(parentElement, index);
 }
