@@ -1,6 +1,7 @@
 import { Component } from '~core/components/component';
 import { ComponentClass } from '~core/components/types/ComponentClass';
 import { VDOMNodeType } from '~core/vdom/constants/VDOMNodeType';
+import { NonEmptyNode } from '~core/vdom/types/NonEmptyNode';
 import { SFFElement } from '~core/vdom/types/SFFElement';
 import { SFFNode } from '~core/vdom/types/SFFNode';
 import {
@@ -10,16 +11,9 @@ import {
   VDOMNodeFragment,
   VDOMNodeText,
 } from '~core/vdom/types/VDOMNode';
+import { isNodeEmpty } from '~core/vdom/utils/vnode';
 import { MaybeArray } from '~types/MaybeArray';
 import { toArray } from '~utils/misc';
-
-type NonEmptyNode = Exclude<SFFNode, null | undefined | boolean>;
-
-const isNodeEmpty = (node: SFFNode) =>
-  typeof node === 'undefined' ||
-  typeof node === 'boolean' ||
-  node === null ||
-  node === '';
 
 const removeEmptyNodes = (nodes: SFFNode[]) =>
   nodes.filter((node) => !isNodeEmpty(node)) as NonEmptyNode[];
