@@ -1,8 +1,12 @@
+import { Component } from '~core/components/component';
+import { ComponentClass } from '~core/components/types/ComponentClass';
+import { PropsWithoutDefault } from '~core/components/types/ComponentProps';
 import { setAttributes } from '~core/render/attributes';
 import { addEventListeners } from '~core/render/events';
 import { NodeIndex } from '~core/render/types/NodeIndex';
 import { VDOMNodeType } from '~core/vdom/constants/VDOMNodeType';
 import { SFFElement } from '~core/vdom/types/SFFElement';
+import { SFFNode } from '~core/vdom/types/SFFNode';
 import {
   VDOMNodeComponent,
   VDOMNodeElement,
@@ -37,6 +41,12 @@ export function mount(
     }
   }
 }
+
+const createComponentInstance = <T extends Component>(
+  cls: ComponentClass<T>,
+  props: PropsWithoutDefault<T>,
+  children: SFFNode[],
+) => new cls({ children, ...props });
 
 function insert(
   el: HTMLElement | Text,
@@ -102,8 +112,8 @@ function mountComponentNode(
   parentElement: HTMLElement,
   index: NodeIndex,
 ) {
-  const { componentClass, props } = node;
-  const instance = new componentClass(props);
+  const { componentClass, props, children } = node;
+  const instance = createComponentInstance(componentClass, props, children);
 
   node.instance = instance;
   node.el = parentElement;
