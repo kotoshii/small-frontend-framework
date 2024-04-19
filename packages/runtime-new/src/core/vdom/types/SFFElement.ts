@@ -10,3 +10,5 @@ export type SFFElement =
   | VDOMNodeFragment
   | VDOMNodeText
   | VDOMNodeComponent;
+
+export type WithExtractableChildren = VDOMNodeElement | VDOMNodeFragment;
