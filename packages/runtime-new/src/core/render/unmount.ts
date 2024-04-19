@@ -2,6 +2,7 @@ import { removeEventListeners } from '~core/render/events';
 import { VDOMNodeType } from '~core/vdom/constants/VDOMNodeType';
 import { SFFElement } from '~core/vdom/types/SFFElement';
 import {
+  VDOMNodeComponent,
   VDOMNodeElement,
   VDOMNodeFragment,
   VDOMNodeText,
@@ -19,6 +20,10 @@ export function unmount(vnode: SFFElement) {
     }
     case VDOMNodeType.TEXT: {
       unmountTextNode(vnode);
+      break;
+    }
+    case VDOMNodeType.COMPONENT: {
+      unmountComponentNode(vnode);
       break;
     }
     default: {
@@ -50,4 +55,9 @@ function unmountTextNode(node: VDOMNodeText) {
     node.el?.remove();
     node.el = null;
   }
+}
+
+function unmountComponentNode(node: VDOMNodeComponent) {
+  node.instance.unmount();
+  node.instance = null;
 }

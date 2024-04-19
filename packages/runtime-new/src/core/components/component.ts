@@ -1,12 +1,16 @@
 import { ComponentProps } from '~core/components/types/ComponentProps';
 import { mount } from '~core/render/mount';
 import { NodeIndex } from '~core/render/types/NodeIndex';
+import { unmount } from '~core/render/unmount';
+import { VDOMNodeType } from '~core/vdom/constants/VDOMNodeType';
 import { hString } from '~core/vdom/h';
+import { SFFElement } from '~core/vdom/types/SFFElement';
 import { SFFNode } from '~core/vdom/types/SFFNode';
-import { isNodeEmpty } from '~core/vdom/utils/vnode';
+import { extractChildren, isNodeEmpty } from '~core/vdom/utils/vnode';
 
 export abstract class Component<TProps = unknown> {
   private isMounted = false;
+  private vnode: SFFElement | null = null;
 
   readonly props: ComponentProps<TProps>;
 
@@ -25,12 +29,52 @@ export abstract class Component<TProps = unknown> {
     }
 
     if (typeof vnode === 'string' || typeof vnode === 'number') {
-      mount(hString(vnode), parentElement, index);
+      this.vnode = hString(vnode);
     } else {
-      mount(vnode, parentElement, index);
+      this.vnode = vnode;
     }
 
+    mount(this.vnode, parentElement, index);
+
     this.isMounted = true;
+  }
+
+  unmount() {
+    if (!this.isMounted)
+      throw new Error('Cannot unmount component that is not mounted');
+
+    if (this.vnode) {
+      unmount(this.vnode);
+      this.vnode = null;
+    }
+
+    this.isMounted = false;
+  }
+
+  get elements() {
+    if (!this.vnode) {
+      return [];
+    }
+
+    if (this.vnode.type === VDOMNodeType.FRAGMENT) {
+      return extractChildren(this.vnode).flatMap((child) => {
+        if (child.type === VDOMNodeType.COMPONENT) {
+          return child.instance.elements;
+        }
+
+        return [child.el];
+      });
+    }
+
+    if (this.vnode.type === VDOMNodeType.COMPONENT) {
+      return [this.vnode.instance.elements];
+    }
+
+    return [this.vnode.el];
+  }
+
+  get firstElement() {
+    return this.elements[0];
   }
 
   abstract render(): SFFNode;
