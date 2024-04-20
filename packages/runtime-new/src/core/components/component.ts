@@ -12,6 +12,7 @@ import { extractChildren, isNodeEmpty } from '~core/vdom/utils/vnode';
 export abstract class Component<TProps = unknown> {
   private isMounted = false;
   private vnode: SFFElement | null = null;
+  private parentElement: HTMLElement | null = null;
 
   readonly props: ComponentProps<TProps>;
 
@@ -21,6 +22,8 @@ export abstract class Component<TProps = unknown> {
 
   mount(parentElement: HTMLElement, index: NodeIndex) {
     if (this.isMounted) throw new Error('Component is already mounted');
+
+    this.parentElement = parentElement;
 
     const vnode = this.render();
 
@@ -34,7 +37,7 @@ export abstract class Component<TProps = unknown> {
       this.vnode = vnode;
     }
 
-    mount(this.vnode, parentElement, index);
+    mount(this.vnode, this.parentElement, index);
 
     this.isMounted = true;
   }
@@ -51,7 +54,7 @@ export abstract class Component<TProps = unknown> {
     this.isMounted = false;
   }
 
-  patch(parentElement: HTMLElement) {
+  patch() {
     let vnode = this.render();
 
     if (isNodeEmpty(vnode)) {
@@ -65,13 +68,13 @@ export abstract class Component<TProps = unknown> {
 
     if (isNodeEmpty(this.vnode)) {
       this.vnode = vnode;
-      mount(this.vnode, parentElement);
+      mount(this.vnode, this.parentElement!);
       this.isMounted = true;
 
       return;
     }
 
-    this.vnode = patch(this.vnode, vnode, parentElement);
+    this.vnode = patch(this.vnode, vnode, this.parentElement!);
   }
 
   get elements() {

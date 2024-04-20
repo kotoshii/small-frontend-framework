@@ -53,7 +53,7 @@ export function patch(
       break;
     }
     case VDOMNodeType.COMPONENT: {
-      patchComponent(vnode1 as VDOMNodeComponent, vnode2, parentElement);
+      patchComponent(vnode1 as VDOMNodeComponent, vnode2);
       return vnode2;
     }
   }
@@ -94,13 +94,9 @@ function patchElementNode(vnode1: VDOMNodeElement, vnode2: VDOMNodeElement) {
   vnode2.listeners = patchEvents(el, oldListeners, oldEvents, newEvents);
 }
 
-function patchComponent(
-  vnode1: VDOMNodeComponent,
-  vnode2: VDOMNodeComponent,
-  parentElement: HTMLElement,
-) {
+function patchComponent(vnode1: VDOMNodeComponent, vnode2: VDOMNodeComponent) {
   if (fastDeepEqual(vnode1.props, vnode2.props)) return;
-  vnode1.instance.patch(parentElement);
+  vnode1.instance.patch();
   vnode2.instance = vnode1.instance;
 
   if (!vnode2.el) {
