@@ -9,6 +9,14 @@ import { SFFElement } from '~core/vdom/types/SFFElement';
 import { SFFNode } from '~core/vdom/types/SFFNode';
 import { extractChildren, isNodeEmpty } from '~core/vdom/utils/vnode';
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
+export interface Component {
+  afterMount(): Promise<void>;
+  afterUpdate(): Promise<void>;
+  beforeUnmount(): Promise<void>;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export abstract class Component<TProps = unknown, TState = unknown> {
   private isMounted = false;
   private vnode: SFFElement | null = null;
@@ -37,6 +45,8 @@ export abstract class Component<TProps = unknown, TState = unknown> {
     const vnode = this.render();
 
     if (isNodeEmpty(vnode)) {
+      this.isMounted = true;
+      void this._afterMount();
       return;
     }
 
@@ -49,6 +59,7 @@ export abstract class Component<TProps = unknown, TState = unknown> {
     mount(this.vnode, this.parentElement, index);
 
     this.isMounted = true;
+    void this._afterMount();
   }
 
   unmount() {
@@ -56,18 +67,24 @@ export abstract class Component<TProps = unknown, TState = unknown> {
       throw new Error('Cannot unmount component that is not mounted');
 
     if (this.vnode) {
+      void this._beforeUnmount();
       unmount(this.vnode);
-      this.vnode = null;
     }
 
     this.isMounted = false;
   }
 
   patch() {
+    if (!this.isMounted)
+      throw new Error('Cannot patch component that is not mounted');
+
     let vnode = this.render();
 
     if (isNodeEmpty(vnode)) {
       this.unmount();
+      this.vnode = null;
+      void this._afterUpdate();
+
       return;
     }
 
@@ -78,12 +95,13 @@ export abstract class Component<TProps = unknown, TState = unknown> {
     if (isNodeEmpty(this.vnode)) {
       this.vnode = vnode;
       mount(this.vnode, this.parentElement!);
-      this.isMounted = true;
+      void this._afterUpdate();
 
       return;
     }
 
     this.vnode = patch(this.vnode, vnode, this.parentElement!);
+    void this._afterUpdate();
   }
 
   updateProps(props: TProps) {
@@ -114,5 +132,17 @@ export abstract class Component<TProps = unknown, TState = unknown> {
 
   get firstElement() {
     return this.elements[0] || null;
+  }
+
+  private _afterMount() {
+    this.afterMount && this.afterMount();
+  }
+
+  private _afterUpdate() {
+    this.afterUpdate && this.afterUpdate();
+  }
+
+  private _beforeUnmount() {
+    this.beforeUnmount && this.beforeUnmount();
   }
 }
