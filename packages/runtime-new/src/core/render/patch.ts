@@ -95,13 +95,13 @@ function patchElementNode(vnode1: VDOMNodeElement, vnode2: VDOMNodeElement) {
 }
 
 function patchComponent(vnode1: VDOMNodeComponent, vnode2: VDOMNodeComponent) {
-  if (fastDeepEqual(vnode1.props, vnode2.props)) return;
-  vnode1.instance.patch();
   vnode2.instance = vnode1.instance;
+  vnode2.el = vnode2.instance.firstElement;
 
-  if (!vnode2.el) {
-    vnode2.el = vnode2.instance.firstElement;
-  }
+  if (fastDeepEqual(vnode1.props, vnode2.props)) return;
+
+  vnode2.instance.updateProps(vnode2.props);
+  vnode2.instance.patch();
 }
 
 function patchAttrs(

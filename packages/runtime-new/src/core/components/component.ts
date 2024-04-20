@@ -14,7 +14,7 @@ export abstract class Component<TProps = unknown, TState = unknown> {
   private vnode: SFFElement | null = null;
   private parentElement: HTMLElement | null = null;
 
-  readonly props: ComponentProps<TProps>;
+  props: ComponentProps<TProps>;
   state?: TState;
 
   constructor(props: ComponentProps<TProps>) {
@@ -84,6 +84,10 @@ export abstract class Component<TProps = unknown, TState = unknown> {
     }
 
     this.vnode = patch(this.vnode, vnode, this.parentElement!);
+  }
+
+  updateProps(props: TProps) {
+    this.props = { ...this.props, ...props };
   }
 
   get elements() {
