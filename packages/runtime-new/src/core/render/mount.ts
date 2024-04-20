@@ -115,8 +115,8 @@ function mountComponentNode(
   const { componentClass, props, children } = node;
   const instance = createComponentInstance(componentClass, props, children);
 
+  instance.mount(parentElement, index);
+
   node.instance = instance;
   node.el = instance.firstElement;
-
-  instance.mount(parentElement, index);
 }

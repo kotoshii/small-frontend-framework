@@ -97,7 +97,7 @@ export abstract class Component<TProps = unknown> {
   }
 
   get firstElement() {
-    return this.elements[0];
+    return this.elements[0] || null;
   }
 
   abstract render(): SFFNode;
