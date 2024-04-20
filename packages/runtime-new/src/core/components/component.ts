@@ -9,15 +9,24 @@ import { SFFElement } from '~core/vdom/types/SFFElement';
 import { SFFNode } from '~core/vdom/types/SFFNode';
 import { extractChildren, isNodeEmpty } from '~core/vdom/utils/vnode';
 
-export abstract class Component<TProps = unknown> {
+export abstract class Component<TProps = unknown, TState = unknown> {
   private isMounted = false;
   private vnode: SFFElement | null = null;
   private parentElement: HTMLElement | null = null;
 
   readonly props: ComponentProps<TProps>;
+  state?: TState;
 
   constructor(props: ComponentProps<TProps>) {
     this.props = props;
+  }
+
+  abstract render(): SFFNode;
+
+  protected setState(state: Partial<TState>) {
+    if (!this.state) return;
+    this.state = { ...this.state, ...state };
+    this.patch();
   }
 
   mount(parentElement: HTMLElement, index: NodeIndex) {
@@ -102,6 +111,4 @@ export abstract class Component<TProps = unknown> {
   get firstElement() {
     return this.elements[0] || null;
   }
-
-  abstract render(): SFFNode;
 }
