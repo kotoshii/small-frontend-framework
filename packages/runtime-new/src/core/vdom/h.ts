@@ -2,6 +2,10 @@ import { Component } from '~core/components/component';
 import { ComponentClass } from '~core/components/types/ComponentClass';
 import { PropsWithoutDefault } from '~core/components/types/ComponentProps';
 import { VDOMNodeType } from '~core/vdom/constants/VDOMNodeType';
+import {
+  HyperscriptPropsType,
+  HyperscriptReturnType,
+} from '~core/vdom/types/HyperscriptFunction';
 import { NonEmptyNode } from '~core/vdom/types/NonEmptyNode';
 import { SFFElement } from '~core/vdom/types/SFFElement';
 import { SFFNode } from '~core/vdom/types/SFFNode';
@@ -30,6 +34,29 @@ const toVDOMNodes = (nodes: NonEmptyNode[]): SFFElement[] =>
 
 const createChildrenArray = (children: MaybeArray<SFFNode>) =>
   toVDOMNodes(removeEmptyNodes(toArray<SFFNode>(children)));
+
+export function h(
+  tagOrComponent: string,
+  props?: VDOMNodeElementProps,
+  children?: MaybeArray<SFFNode>,
+): VDOMNodeElement;
+export function h<T extends Component>(
+  tagOrComponent: ComponentClass<T>,
+  props?: PropsWithoutDefault<T>,
+  children?: MaybeArray<SFFNode>,
+): VDOMNodeComponent<T>;
+
+export function h(
+  tagOrComponent: ComponentClass<any> | string,
+  props?: HyperscriptPropsType<any>,
+  children?: MaybeArray<SFFNode>,
+): HyperscriptReturnType<any> {
+  if (typeof tagOrComponent === 'string') {
+    return hElement(tagOrComponent, props, children);
+  }
+
+  return hComponent(tagOrComponent, props, children);
+}
 
 export function hElement(
   tag: string,
