@@ -1,3 +1,5 @@
+import fastDeepEqual from 'fast-deep-equal/es6';
+
 import {
   arraysDiff,
   arraysDiffSequence,
@@ -19,7 +21,11 @@ import {
   SFFElement,
   WithExtractableChildren,
 } from '~core/vdom/types/SFFElement';
-import { VDOMNodeElement, VDOMNodeText } from '~core/vdom/types/VDOMNode';
+import {
+  VDOMNodeComponent,
+  VDOMNodeElement,
+  VDOMNodeText,
+} from '~core/vdom/types/VDOMNode';
 import { extractChildren } from '~core/vdom/utils/vnode';
 
 export function patch(
@@ -47,8 +53,8 @@ export function patch(
       break;
     }
     case VDOMNodeType.COMPONENT: {
-      // patchComponent(vnode1 as VDOMNodeComponent, vnode2);
-      return;
+      patchComponent(vnode1 as VDOMNodeComponent, vnode2, parentElement);
+      return vnode2;
     }
   }
 
@@ -86,6 +92,20 @@ function patchElementNode(vnode1: VDOMNodeElement, vnode2: VDOMNodeElement) {
   patchStyles(el, oldStyle, newStyle);
 
   vnode2.listeners = patchEvents(el, oldListeners, oldEvents, newEvents);
+}
+
+function patchComponent(
+  vnode1: VDOMNodeComponent,
+  vnode2: VDOMNodeComponent,
+  parentElement: HTMLElement,
+) {
+  if (fastDeepEqual(vnode1.props, vnode2.props)) return;
+  vnode1.instance.patch(parentElement);
+  vnode2.instance = vnode1.instance;
+
+  if (!vnode2.el) {
+    vnode2.el = vnode2.instance.firstElement;
+  }
 }
 
 function patchAttrs(

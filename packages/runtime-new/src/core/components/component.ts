@@ -1,5 +1,6 @@
 import { ComponentProps } from '~core/components/types/ComponentProps';
 import { mount } from '~core/render/mount';
+import { patch } from '~core/render/patch';
 import { NodeIndex } from '~core/render/types/NodeIndex';
 import { unmount } from '~core/render/unmount';
 import { VDOMNodeType } from '~core/vdom/constants/VDOMNodeType';
@@ -24,7 +25,6 @@ export abstract class Component<TProps = unknown> {
     const vnode = this.render();
 
     if (isNodeEmpty(vnode)) {
-      this.isMounted = true;
       return;
     }
 
@@ -49,6 +49,29 @@ export abstract class Component<TProps = unknown> {
     }
 
     this.isMounted = false;
+  }
+
+  patch(parentElement: HTMLElement) {
+    let vnode = this.render();
+
+    if (isNodeEmpty(vnode)) {
+      this.unmount();
+      return;
+    }
+
+    if (typeof vnode === 'string' || typeof vnode === 'number') {
+      vnode = hString(vnode);
+    }
+
+    if (isNodeEmpty(this.vnode)) {
+      this.vnode = vnode;
+      mount(this.vnode, parentElement);
+      this.isMounted = true;
+
+      return;
+    }
+
+    this.vnode = patch(this.vnode, vnode, parentElement);
   }
 
   get elements() {
