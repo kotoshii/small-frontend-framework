@@ -11,9 +11,9 @@ import { extractChildren, isNodeEmpty } from '~core/vdom/utils/vnode';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface Component {
-  afterMount(): Promise<void>;
-  afterUpdate(): Promise<void>;
-  beforeUnmount(): Promise<void>;
+  afterMount(): Promise<void> | void;
+  afterUpdate(): Promise<void> | void;
+  beforeUnmount(): Promise<void> | void;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
