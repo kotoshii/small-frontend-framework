@@ -4,6 +4,7 @@ import { PropsWithoutDefault } from '~core/components/types/ComponentProps';
 import { setAttributes } from '~core/render/attributes';
 import { addEventListeners } from '~core/render/events';
 import { NodeIndex } from '~core/render/types/NodeIndex';
+import { Store } from '~core/store/store';
 import { VDOMNodeType } from '~core/vdom/constants/VDOMNodeType';
 import { SFFElement } from '~core/vdom/types/SFFElement';
 import { SFFNode } from '~core/vdom/types/SFFNode';
@@ -46,7 +47,7 @@ const createComponentInstance = <T extends Component>(
   cls: ComponentClass<T>,
   props: PropsWithoutDefault<T>,
   children: SFFNode[],
-) => new cls({ children, ...props });
+) => new cls({ children, store: Store.instance(), ...props });
 
 function insert(
   el: HTMLElement | Text,

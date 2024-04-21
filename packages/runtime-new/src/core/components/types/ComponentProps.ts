@@ -1,7 +1,8 @@
 import { Component } from '~core/components/component';
+import { Store } from '~core/store/store';
 import { SFFNode } from '~core/vdom/types/SFFNode';
 
-type DefaultComponentProps = { children: SFFNode[] };
+type DefaultComponentProps = { children: SFFNode[]; store: Store };
 
 type OptionalComponentProps = { key?: string | number };
 
