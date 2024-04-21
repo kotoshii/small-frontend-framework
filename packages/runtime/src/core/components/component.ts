@@ -79,6 +79,7 @@ export abstract class Component<TProps = unknown, TState = unknown> {
     if (this.vnode) {
       void this._beforeUnmount();
       unmount(this.vnode);
+      this.vnode = null;
     }
 
     this.isMounted = false;
@@ -91,8 +92,10 @@ export abstract class Component<TProps = unknown, TState = unknown> {
     let vnode = this.render();
 
     if (isNodeEmpty(vnode)) {
-      this.unmount();
-      this.vnode = null;
+      if (this.vnode) {
+        unmount(this.vnode);
+        this.vnode = null;
+      }
       void this._afterUpdate();
 
       return;
