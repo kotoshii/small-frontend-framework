@@ -1,4 +1,4 @@
-import { ArrayWithOriginalIndexes } from '~core/reconciliation/ArrayWithOriginalIndexes';
+import { ArrayWithOriginalIndexes } from '~core/reconciliation/array-with-original-indexes';
 import {
   ArraysDiff,
   ArraysDiffOp,
