@@ -40,7 +40,12 @@ export class Dispatcher {
   }
 
   dispatch<T>(action: string, payload: T) {
-    this.actionHandlers.get(action)?.forEach((handler) => handler(payload));
-    this.eventBus.emit(InternalEvent.RenderVDOM);
+    if (this.actionHandlers.has(action)) {
+      this.actionHandlers.get(action)?.forEach((handler) => handler(payload));
+      this.eventBus.emit(InternalEvent.RenderVDOM);
+      return;
+    }
+
+    console.warn(`Tried to dispatch non-existing action \`${action}\`.`);
   }
 }
