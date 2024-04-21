@@ -98,7 +98,8 @@ function patchComponent(vnode1: VDOMNodeComponent, vnode2: VDOMNodeComponent) {
   vnode2.instance = vnode1.instance;
   vnode2.el = vnode2.instance.firstElement;
 
-  if (fastDeepEqual(vnode1.props, vnode2.props)) return;
+  if (vnode2.instance.memoized && fastDeepEqual(vnode1.props, vnode2.props))
+    return;
 
   vnode2.instance.updateProps(vnode2.props);
   vnode2.instance.patch();

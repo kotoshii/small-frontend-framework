@@ -21,6 +21,7 @@ export abstract class Component<TProps = unknown, TState = unknown> {
   private isMounted = false;
   private vnode: SFFElement | null = null;
   private parentElement: HTMLElement | null = null;
+  private _memoized = false;
 
   props: ComponentProps<TProps>;
   state?: TState;
@@ -35,6 +36,15 @@ export abstract class Component<TProps = unknown, TState = unknown> {
     if (!this.state) return;
     this.state = { ...this.state, ...state };
     this.patch();
+  }
+
+  /**
+   * Call this method in constructor!
+   * Enables props comparison before updating the component so that it's updated only if props differ. Works like React's memo() function.
+   * Comparison is done using `fast-deep-equal` package.
+   * */
+  protected useMemo() {
+    this._memoized = true;
   }
 
   mount(parentElement: HTMLElement, index: NodeIndex) {
@@ -132,6 +142,10 @@ export abstract class Component<TProps = unknown, TState = unknown> {
 
   get firstElement() {
     return this.elements[0] || null;
+  }
+
+  get memoized() {
+    return this._memoized;
   }
 
   private _afterMount() {
