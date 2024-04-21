@@ -5,6 +5,7 @@ import { VDOMNodeType } from '~core/vdom/constants/VDOMNodeType';
 import {
   HyperscriptPropsType,
   HyperscriptReturnType,
+  HyperscriptTagType,
 } from '~core/vdom/types/HyperscriptFunction';
 import { NonEmptyNode } from '~core/vdom/types/NonEmptyNode';
 import { SFFElement } from '~core/vdom/types/SFFElement';
@@ -35,22 +36,22 @@ const toVDOMNodes = (nodes: NonEmptyNode[]): SFFElement[] =>
 const createChildrenArray = (children: MaybeArray<SFFNode>) =>
   toVDOMNodes(removeEmptyNodes(toArray<SFFNode>(children)));
 
-export function h<T extends Component>(
-  tagOrComponent: ComponentClass<T> | string,
+export function h<T extends Component | string = string>(
+  tagOrComponent: HyperscriptTagType<T>,
   props?: HyperscriptPropsType<T>,
   children?: MaybeArray<SFFNode>,
 ): HyperscriptReturnType<T> {
   if (typeof tagOrComponent === 'string') {
     return hElement(
       tagOrComponent,
-      props,
+      props as VDOMNodeElementProps,
       children,
     ) as HyperscriptReturnType<T>;
   }
 
   return hComponent(
     tagOrComponent,
-    props as PropsWithoutDefault<T>,
+    props as PropsWithoutDefault<any>,
     children,
   ) as HyperscriptReturnType<T>;
 }
