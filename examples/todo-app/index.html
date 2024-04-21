@@ -137,7 +137,12 @@
       }
 
       class Content extends Component {
-        state = { posts: [], users: {} };
+        state = { search: "" };
+        constructor(props) {
+          super(props);
+        }
+
+        handleSearchChange = (value) => this.setState({ search: value });
 
         async afterMount() {
           const [postsRes, usersRes] = await Promise.all([
@@ -153,11 +158,19 @@
             {},
           );
 
-          this.setState({ posts, users });
+          this.props.store.dispatch("setPosts", posts);
+          this.props.store.dispatch("setUsers", users);
         }
 
-        async afterUpdate() {
-          console.log(this.state);
+        get filteredPosts() {
+          const { posts } = this.props.store.data;
+          const { search } = this.state;
+          if (!this.state.search) return posts;
+          return posts.filter(
+            (post) =>
+              post.title.toLowerCase().includes(search.toLowerCase()) ||
+              post.body.toLowerCase().includes(search.toLowerCase()),
+          );
         }
 
         render() {
@@ -172,14 +185,21 @@
                 padding: "20px 10px 20px 10px",
               },
             },
-            this.state.posts.map(({ id, userId, title, body }) =>
-              h(Post, {
-                key: id,
-                title,
-                body,
-                author: this.state.users[userId],
+            [
+              h("input", {
+                placeholder: "Search...",
+                on: { input: (e) => this.handleSearchChange(e.target.value) },
               }),
-            ),
+              ...this.filteredPosts.map(
+                ({ id, userId, title, body }) =>
+                  h(Post, {
+                    key: id,
+                    title,
+                    body,
+                    author: this.props.store.data.users[userId],
+                  }),
+              ),
+            ],
           );
         }
       }
@@ -199,7 +219,18 @@
         }
       }
 
-      createApp({ view: App }).mount(document.body);
+      createApp({
+        view: App,
+        state: { posts: [], users: {} },
+        reducers: {
+          setPosts(state, posts) {
+            return { ...state, posts };
+          },
+          setUsers(state, users) {
+            return { ...state, users };
+          },
+        },
+      }).mount(document.body);
     </script>
   </body>
 </html>
