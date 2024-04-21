@@ -4,6 +4,7 @@ import { ComponentClass } from '~core/components/types/ComponentClass';
 import { CreateAppOptions } from '~core/init/types/CreateAppOptions';
 import { mount } from '~core/render/mount';
 import { patch } from '~core/render/patch';
+import { RouteNavigator } from '~core/router/route-navigator';
 import { Dispatcher } from '~core/store/dispatcher';
 import { GlobalState } from '~core/store/global-state';
 import { Store } from '~core/store/store';
@@ -30,6 +31,7 @@ export class App<RootComponent extends Component, State = unknown> {
     const dispatcher = Dispatcher.create();
 
     Store.create(globalState, dispatcher);
+    RouteNavigator.create();
 
     if (options?.reducers) {
       for (const actionName in options.reducers) {

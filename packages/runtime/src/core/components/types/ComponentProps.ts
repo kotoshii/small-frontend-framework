@@ -1,8 +1,13 @@
 import { Component } from '~core/components/component';
+import { RouteNavigator } from '~core/router/route-navigator';
 import { Store } from '~core/store/store';
 import { SFFNode } from '~core/vdom/types/SFFNode';
 
-type DefaultComponentProps = { children: SFFNode[]; store: Store };
+type DefaultComponentProps = {
+  children: SFFNode[];
+  store: Store;
+  router: RouteNavigator;
+};
 
 type OptionalComponentProps = { key?: string | number };
 
