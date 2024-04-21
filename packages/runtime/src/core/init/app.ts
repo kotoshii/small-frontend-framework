@@ -8,6 +8,7 @@ import { Dispatcher } from '~core/store/dispatcher';
 import { GlobalState } from '~core/store/global-state';
 import { Store } from '~core/store/store';
 import { h } from '~core/vdom/h';
+import { HyperscriptTagType } from '~core/vdom/types/HyperscriptFunction';
 import { SFFElement } from '~core/vdom/types/SFFElement';
 import { EventBus } from '~utils/event-bus/event-bus';
 
@@ -59,6 +60,6 @@ export class App<RootComponent extends Component, State = unknown> {
   }
 
   private createRootComponent() {
-    return h(this.RootComponent);
+    return h(this.RootComponent as HyperscriptTagType<RootComponent>);
   }
 }
