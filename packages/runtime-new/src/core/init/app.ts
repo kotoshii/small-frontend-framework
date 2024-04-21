@@ -16,18 +16,21 @@ export class App<RootComponent extends Component, State = unknown> {
   private vnode: SFFElement | null = null;
   private readonly RootComponent: ComponentClass<RootComponent>;
 
-  constructor(options: CreateAppOptions<RootComponent, State>) {
-    this.RootComponent = options.view;
+  constructor(
+    view: ComponentClass<RootComponent>,
+    options?: CreateAppOptions<State>,
+  ) {
+    this.RootComponent = view;
 
     const eventBus = EventBus.create();
     eventBus.on(InternalEvent.RenderVDOM, this.render.bind(this));
 
-    const globalState = GlobalState.create(options.state || {});
+    const globalState = GlobalState.create(options?.state || {});
     const dispatcher = Dispatcher.create();
 
     Store.create(globalState, dispatcher);
 
-    if (options.reducers) {
+    if (options?.reducers) {
       for (const actionName in options.reducers) {
         const reducer = options.reducers[actionName];
         dispatcher.subscribe(actionName, (payload) => {
