@@ -163,7 +163,7 @@
         }
 
         get filteredPosts() {
-          const { posts } = this.props.store.data;
+          const { posts = [] } = this.props.store.data;
           const { search } = this.state;
           if (!this.state.search) return posts;
           return posts.filter(
@@ -219,18 +219,7 @@
         }
       }
 
-      createApp({
-        view: App,
-        state: { posts: [], users: {} },
-        reducers: {
-          setPosts(state, posts) {
-            return { ...state, posts };
-          },
-          setUsers(state, users) {
-            return { ...state, users };
-          },
-        },
-      }).mount(document.body);
+      createApp(App).mount(document.body);
     </script>
   </body>
 </html>
