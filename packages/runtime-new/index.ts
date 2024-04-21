@@ -1,6 +1,5 @@
 /*
  * TODO:
- *   1. Global state
  *   2. Router
  *   3. Improve typings
  *   4. CLI
