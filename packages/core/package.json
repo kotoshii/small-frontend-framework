@@ -1,5 +1,5 @@
 {
-  "name": "sff",
+  "name": "@sff/core",
   "version": "0.1.0",
   "description": "Small frontend framework",
   "main": "dist/index.js",
