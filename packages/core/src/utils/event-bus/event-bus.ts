@@ -31,7 +31,7 @@ export class EventBus {
     this.listeners[eventName].push(listener);
   }
 
-  emit(eventName: string, payload?: any) {
+  emit(eventName: string, payload?: unknown) {
     if (this.listeners[eventName]) {
       this.listeners[eventName].forEach((listener) => listener(payload));
     }

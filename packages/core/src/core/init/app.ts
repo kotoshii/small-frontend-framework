@@ -13,7 +13,10 @@ import { HyperscriptTagType } from '~core/vdom/types/HyperscriptFunction';
 import { SFFElement } from '~core/vdom/types/SFFElement';
 import { EventBus } from '~utils/event-bus/event-bus';
 
-export class App<RootComponent extends Component, State = unknown> {
+export class App<
+  RootComponent extends Component,
+  State extends object = object,
+> {
   private root: HTMLElement | null = null;
   private vnode: SFFElement | null = null;
   private readonly RootComponent: ComponentClass<RootComponent>;
@@ -24,23 +27,11 @@ export class App<RootComponent extends Component, State = unknown> {
   ) {
     this.RootComponent = view;
 
-    const eventBus = EventBus.create();
-    eventBus.on(InternalEvent.RenderVDOM, this.render.bind(this));
-
-    const globalState = GlobalState.create(options?.state || {});
-    const dispatcher = Dispatcher.create();
-
-    Store.create(globalState, dispatcher);
+    EventBus.create().on(InternalEvent.RenderVDOM, this.render.bind(this));
+    GlobalState.create<State>(options?.state);
+    Dispatcher.create<State>(options?.reducers);
+    Store.create();
     RouteNavigator.create();
-
-    if (options?.reducers) {
-      for (const actionName in options.reducers) {
-        const reducer = options.reducers[actionName];
-        dispatcher.subscribe(actionName, (payload) => {
-          globalState.set(reducer(globalState.get(), payload));
-        });
-      }
-    }
   }
 
   mount(root: HTMLElement) {
