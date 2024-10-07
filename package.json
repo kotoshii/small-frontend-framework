@@ -1,15 +1,11 @@
 {
-  "name": "sff-monorepo",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
+  "repository": "https://github.com/kotoshii/small-frontend-framework.git",
+  "author": "pusuwa <40234487+kotoshii@users.noreply.github.com>",
   "license": "GPL-3.0",
   "private": true,
+  "scripts": {
+    "build": "yarn workspaces run build"
+  },
   "workspaces": [
     "packages/core",
     "packages/cli"
