@@ -1,7 +1,7 @@
 {
   "name": "@sff/core",
   "version": "0.1.0",
-  "description": "Small frontend framework",
+  "description": "SFF - Small Frontend Framework",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
