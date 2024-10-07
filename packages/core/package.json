@@ -21,7 +21,8 @@
   "license": "GPL-3.0",
   "scripts": {
     "build": "tsc & tsc-alias",
-    "release": "commit-and-tag-version"
+    "release": "yarn build && commit-and-tag-version",
+    "publish": "npm publish"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^7.2.0",
