@@ -11,7 +11,7 @@
   "license": "GPL-3.0",
   "private": true,
   "workspaces": [
-    "packages/runtime",
+    "packages/core",
     "packages/cli"
   ]
 
