@@ -3,9 +3,12 @@ import { RouteNavigator } from '~core/router/route-navigator';
 import { Store } from '~core/store/store';
 import { SFFNode } from '~core/vdom/types/SFFNode';
 
-type DefaultComponentProps = {
+type DefaultComponentProps<
+  TGlobalState extends object = object,
+  TReducersPayloadMap = Record<string, unknown>,
+> = {
   children: SFFNode[];
-  store: Store;
+  store: Store<TGlobalState, TReducersPayloadMap>;
   router: RouteNavigator;
 };
 
@@ -16,6 +19,10 @@ export type PropsWithoutDefault<T extends Component> = Omit<
   keyof DefaultComponentProps
 >;
 
-export type ComponentProps<T> = T &
-  DefaultComponentProps &
+export type ComponentProps<
+  TProps,
+  TGlobalState extends object = object,
+  TReducersPayloadMap = Record<string, unknown>,
+> = TProps &
+  DefaultComponentProps<TGlobalState, TReducersPayloadMap> &
   OptionalComponentProps;

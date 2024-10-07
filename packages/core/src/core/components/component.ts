@@ -17,16 +17,23 @@ export interface Component {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
-export abstract class Component<TProps = unknown, TState = unknown> {
+export abstract class Component<
+  TProps = unknown,
+  TState = unknown,
+  TGlobalState extends object = object,
+  TReducersPayloadMap = Record<string, unknown>,
+> {
   private isMounted = false;
   private vnode: SFFElement | null = null;
   private parentElement: HTMLElement | null = null;
   private _memoized = false;
 
-  props: ComponentProps<TProps>;
+  props: ComponentProps<TProps, TGlobalState, TReducersPayloadMap>;
   state?: TState;
 
-  constructor(props: ComponentProps<TProps>) {
+  constructor(
+    props: ComponentProps<TProps, TGlobalState, TReducersPayloadMap>,
+  ) {
     this.props = props;
   }
 
