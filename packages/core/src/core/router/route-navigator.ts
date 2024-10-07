@@ -5,7 +5,7 @@ export class RouteNavigator {
   private routerComponent: Router | null = null;
   private static _instance: RouteNavigator | null = null;
 
-  constructor() {
+  private constructor() {
     this.currentPath = window.location.pathname;
     window.addEventListener('popstate', this.handlePopState);
   }
