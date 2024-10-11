@@ -1,6 +1,6 @@
 {
   "name": "@sff-ui/cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "SFF CLI - A CLI tool for Small Frontend Framework",
   "bin": {
     "sff-ui": "dist/bin/cli.js"
@@ -26,7 +26,7 @@
     "copy-files": "ncp templates dist/templates",
     "clean": "rimraf dist/",
     "build": "yarn clean && tsc & tsc-alias",
-    "release": "commit-and-tag-version",
+    "release": "commit-and-tag-version -t @sff-ui/cli/v",
     "release:publish": "yarn build && npm publish"
   },
   "devDependencies": {
