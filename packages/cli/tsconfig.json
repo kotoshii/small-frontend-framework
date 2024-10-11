@@ -101,7 +101,7 @@
     "skipLibCheck": true,                                 /* Skip type checking all .d.ts files. */
     "paths": {
       "~bin/*": ["bin/*"],
-      "~lib/*": ["lib/*"],
+      "~lib/*": ["lib/*"]
     }
   },
   "ts-node": {
@@ -111,5 +111,6 @@
       "module": "commonjs"
     },
     "require": ["tsconfig-paths/register"]
-  }
+  },
+  "exclude": ["templates"]
 }
