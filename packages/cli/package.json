@@ -25,7 +25,7 @@
   "scripts": {
     "copy-files": "ncp templates dist/templates",
     "clean": "rimraf dist/",
-    "build": "yarn clean && tsc & tsc-alias && yarn copy-files",
+    "build": "yarn clean && tsc & tsc-alias",
     "release": "commit-and-tag-version",
     "release:publish": "yarn build && npm publish"
   },
