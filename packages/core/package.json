@@ -20,7 +20,8 @@
   "author": "kotoshii",
   "license": "GPL-3.0",
   "scripts": {
-    "build": "tsc & tsc-alias",
+    "clean": "rimraf dist/",
+    "build": "yarn clean && tsc & tsc-alias",
     "release": "commit-and-tag-version -t @sff-ui/core/v",
     "release:publish": "yarn build && npm publish"
   },
@@ -31,6 +32,7 @@
     "eslint": "^8.57.0",
     "eslint-plugin-simple-import-sort": "^12.0.0",
     "prettier": "^3.2.5",
+    "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.8.10",
     "tsconfig-paths": "^4.2.0",
