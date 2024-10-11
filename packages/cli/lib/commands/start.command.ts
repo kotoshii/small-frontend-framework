@@ -5,7 +5,15 @@ export class StartCommand extends AbstractCommand {
   description = 'Start the app in watch mode';
 
   async execute() {
-    // TODO: Add logic to start the project in watch mode.
-    console.log('`start` command');
+    const { createServer } = await import('vite');
+
+    const server = await createServer({
+      root: process.cwd(),
+    });
+
+    await server.listen(8080);
+
+    server.printUrls();
+    server.bindCLIShortcuts({ print: true });
   }
 }
