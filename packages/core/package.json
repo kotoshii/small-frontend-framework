@@ -1,6 +1,6 @@
 {
   "name": "@sff-ui/core",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "SFF - Small Frontend Framework",
   "main": "dist/index.js",
   "files": [

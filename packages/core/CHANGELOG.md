@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.3](https://github.com/kotoshii/small-frontend-framework/compare/@sff-ui/core/v0.1.2...@sff-ui/core/v0.1.3) (2024-10-11)
+
+
+### Features
+
+* **core:** Improve build process. ([0521e8e](https://github.com/kotoshii/small-frontend-framework/commit/0521e8ea9031523e2bb01f8b666935425a388ff1))
+
 ## 0.1.2 (2024-10-11)
 
 
