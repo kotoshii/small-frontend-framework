@@ -1,6 +1,6 @@
 {
   "name": "@sff-ui/core",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "SFF - Small Frontend Framework",
   "main": "dist/index.js",
   "files": [
@@ -21,7 +21,7 @@
   "license": "GPL-3.0",
   "scripts": {
     "build": "tsc & tsc-alias",
-    "release": "commit-and-tag-version",
+    "release": "commit-and-tag-version -t @sff-ui/core/v",
     "release:publish": "yarn build && npm publish"
   },
   "devDependencies": {
