@@ -1,11 +1,15 @@
 import { AbstractCommand } from '~lib/commands/abstract.command';
 
 export class BuildCommand extends AbstractCommand {
-  nameAndArgs = 'build';
+  nameAndArgs = 'build [configPath]';
   description = 'Build the app for production';
 
-  async execute() {
-    // TODO: Add logic to build the project for production.
-    console.log('`build` command');
+  async execute(configFile?: string) {
+    const { build } = await import('vite');
+
+    await build({
+      root: process.cwd(),
+      configFile,
+    });
   }
 }
