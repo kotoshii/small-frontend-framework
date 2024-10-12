@@ -1,0 +1,13 @@
+.counter-value {
+    margin-left: 1.25rem;
+    margin-right: 1.25rem;
+    font-size: 2rem;
+}
+
+.counter-button {
+    font-size: 1.25rem;
+}
+
+.counter-wrapper {
+    margin-top: 4rem;
+}

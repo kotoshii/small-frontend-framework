@@ -1,0 +1,20 @@
+{
+  "name": "sff-app",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "sff-ui start",
+    "build": "sff-ui build"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-simple-import-sort": "^12.0.0",
+    "prettier": "^3.3.3",
+    "typescript": "^5.5.3"
+  },
+  "dependencies": {
+    "@sff-ui/cli": "^0.1.3",
+    "@sff-ui/core": "^0.1.5"
+  }
+}
