@@ -44,5 +44,10 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
+  },
+  "commit-and-tag-version": {
+    "skip": {
+      "changelog": true
+    }
   }
 }
