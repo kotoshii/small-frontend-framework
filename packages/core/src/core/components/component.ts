@@ -9,6 +9,11 @@ import { SFFElement } from '~core/vdom/types/SFFElement';
 import { SFFNode } from '~core/vdom/types/SFFNode';
 import { extractChildren, isNodeEmpty } from '~core/vdom/utils/vnode';
 
+export const mountSymbol = Symbol('mount');
+export const unmountSymbol = Symbol('unmount');
+export const patchSymbol = Symbol('patch');
+export const updatePropsSymbol = Symbol('updateProps');
+
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface Component {
   afterMount(): Promise<void> | void;
@@ -19,9 +24,9 @@ export interface Component {
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export abstract class Component<
   TProps = unknown,
-  TState = unknown,
   TGlobalState extends object = object,
   TReducersPayloadMap = Record<string, unknown>,
+  TState extends object = object,
 > {
   private isMounted = false;
   private vnode: SFFElement | null = null;
@@ -29,7 +34,7 @@ export abstract class Component<
   private _memoized = false;
 
   props: ComponentProps<TProps, TGlobalState, TReducersPayloadMap>;
-  state?: TState;
+  state: TState = {} as TState;
 
   constructor(
     props: ComponentProps<TProps, TGlobalState, TReducersPayloadMap>,
@@ -42,7 +47,7 @@ export abstract class Component<
   protected setState(state: Partial<TState>) {
     if (!this.state) return;
     this.state = { ...this.state, ...state };
-    this.patch();
+    this[patchSymbol]();
   }
 
   /**
@@ -54,7 +59,7 @@ export abstract class Component<
     this._memoized = true;
   }
 
-  mount(parentElement: HTMLElement, index: NodeIndex) {
+  [mountSymbol](parentElement: HTMLElement, index: NodeIndex) {
     if (this.isMounted) throw new Error('Component is already mounted');
 
     this.parentElement = parentElement;
@@ -79,7 +84,7 @@ export abstract class Component<
     void this._afterMount();
   }
 
-  unmount() {
+  [unmountSymbol]() {
     if (!this.isMounted)
       throw new Error('Cannot unmount component that is not mounted');
 
@@ -92,7 +97,7 @@ export abstract class Component<
     this.isMounted = false;
   }
 
-  patch() {
+  [patchSymbol]() {
     if (!this.isMounted)
       throw new Error('Cannot patch component that is not mounted');
 
@@ -124,11 +129,11 @@ export abstract class Component<
     void this._afterUpdate();
   }
 
-  updateProps(props: TProps) {
+  [updatePropsSymbol](props: TProps) {
     this.props = { ...this.props, ...props };
   }
 
-  get elements() {
+  private get elements() {
     if (!this.vnode) {
       return [];
     }
@@ -150,11 +155,11 @@ export abstract class Component<
     return [this.vnode.el];
   }
 
-  get firstElement() {
+  private get firstElement() {
     return this.elements[0] || null;
   }
 
-  get memoized() {
+  private get memoized() {
     return this._memoized;
   }
 

@@ -1,3 +1,4 @@
+import { patchSymbol } from '~core/components/component';
 import { Router } from '~core/router/components/router';
 
 export class RouteNavigator {
@@ -41,11 +42,11 @@ export class RouteNavigator {
   navigate(path: string) {
     history.pushState(null, '', path);
     this.currentPath = path;
-    this.routerComponent?.patch();
+    this.routerComponent?.[patchSymbol]();
   }
 
   private handlePopState = () => {
     this.currentPath = window.location.pathname;
-    this.routerComponent?.patch();
+    this.routerComponent?.[patchSymbol]();
   };
 }
