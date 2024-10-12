@@ -17,7 +17,7 @@ export class App<
   RootComponent extends Component,
   State extends object = object,
 > {
-  private root: HTMLElement | null = null;
+  private root: HTMLElement | null | undefined = null;
   private vnode: SFFElement | null = null;
   private readonly RootComponent: ComponentClass<RootComponent>;
 
@@ -34,7 +34,7 @@ export class App<
     RouteNavigator.create();
   }
 
-  mount(root: HTMLElement) {
+  mount(root?: HTMLElement | null) {
     this.root = root;
     this.render();
   }
