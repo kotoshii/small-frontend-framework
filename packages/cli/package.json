@@ -23,9 +23,9 @@
   "author": "kotoshii",
   "license": "GPL-3.0",
   "scripts": {
-    "copy-files": "ncp templates dist/templates",
+    "copy-files": "ncp templates dist/templates && rimraf dist/templates/*/node_modules dist/templates/*/yarn.lock --glob",
     "clean": "rimraf dist/",
-    "build": "yarn clean && tsc & tsc-alias",
+    "build": "yarn clean && tsc & tsc-alias && yarn copy-files",
     "release": "commit-and-tag-version -t @sff-ui/cli/v",
     "release:publish": "yarn build && npm publish"
   },
