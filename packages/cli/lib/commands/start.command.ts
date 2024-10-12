@@ -6,9 +6,11 @@ export class StartCommand extends AbstractCommand {
 
   async execute() {
     const { createServer } = await import('vite');
+    const { default: tsConfigPaths } = await import('vite-tsconfig-paths');
 
     const server = await createServer({
       root: process.cwd(),
+      plugins: [tsConfigPaths()],
     });
 
     await server.listen(8080);

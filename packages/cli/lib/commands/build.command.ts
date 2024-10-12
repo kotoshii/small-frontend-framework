@@ -6,10 +6,12 @@ export class BuildCommand extends AbstractCommand {
 
   async execute(configFile?: string) {
     const { build } = await import('vite');
+    const { default: tsConfigPaths } = await import('vite-tsconfig-paths');
 
     await build({
       root: process.cwd(),
       configFile,
+      plugins: [tsConfigPaths()],
     });
   }
 }
