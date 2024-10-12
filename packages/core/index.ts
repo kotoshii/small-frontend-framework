@@ -1,13 +1,3 @@
-/*
- * TODO:
- *   1. rework building process (done)
- *   2. add examples and docs
- *   3. Improve typings (done)
- *   4. Publish
- *   5. CLI
- *
- * */
-
 import { Component } from '~core/components/component';
 import { createApp } from '~core/init/create-app';
 import { CreateAppOptions } from '~core/init/types/CreateAppOptions';
