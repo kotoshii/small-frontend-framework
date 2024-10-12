@@ -48,6 +48,7 @@
   "commit-and-tag-version": {
     "skip": {
       "changelog": true
-    }
+    },
+    "releaseCommitMessageFormat": "chore(release/core): {{currentTag}}"
   }
 }
