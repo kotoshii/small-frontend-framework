@@ -1,4 +1,4 @@
-import { Component } from '~core/components/component';
+import { Component, mountSymbol } from '~core/components/component';
 import { ComponentClass } from '~core/components/types/ComponentClass';
 import { PropsWithoutDefault } from '~core/components/types/ComponentProps';
 import { setAttributes } from '~core/render/attributes';
@@ -123,7 +123,7 @@ function mountComponentNode(
   const { componentClass, props, children } = node;
   const instance = createComponentInstance(componentClass, props, children);
 
-  instance.mount(parentElement, index);
+  instance[mountSymbol](parentElement, index);
 
   node.instance = instance;
   node.el = instance.firstElement;

@@ -1,5 +1,6 @@
 import fastDeepEqual from 'fast-deep-equal/es6';
 
+import { patchSymbol, updatePropsSymbol } from '~core/components/component';
 import {
   arraysDiff,
   arraysDiffSequence,
@@ -101,8 +102,8 @@ function patchComponent(vnode1: VDOMNodeComponent, vnode2: VDOMNodeComponent) {
   if (vnode2.instance.memoized && fastDeepEqual(vnode1.props, vnode2.props))
     return;
 
-  vnode2.instance.updateProps(vnode2.props);
-  vnode2.instance.patch();
+  vnode2.instance[updatePropsSymbol](vnode2.props);
+  vnode2.instance[patchSymbol]();
 }
 
 function patchAttrs(

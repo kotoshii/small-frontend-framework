@@ -1,3 +1,4 @@
+import { unmountSymbol } from '~core/components/component';
 import { removeEventListeners } from '~core/render/events';
 import { VDOMNodeType } from '~core/vdom/constants/VDOMNodeType';
 import { SFFElement } from '~core/vdom/types/SFFElement';
@@ -58,6 +59,6 @@ function unmountTextNode(node: VDOMNodeText) {
 }
 
 function unmountComponentNode(node: VDOMNodeComponent) {
-  node.instance.unmount();
+  node.instance[unmountSymbol]();
   node.instance = null;
 }
