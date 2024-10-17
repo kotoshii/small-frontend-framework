@@ -14,7 +14,7 @@
     "typescript": "^5.5.3"
   },
   "dependencies": {
-    "@sff-ui/cli": "^0.1.3",
-    "@sff-ui/core": "^0.1.5"
+    "@sff-ui/cli": "^0.1.4",
+    "@sff-ui/core": "^0.1.6"
   }
 }
