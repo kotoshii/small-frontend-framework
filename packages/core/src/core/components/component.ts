@@ -21,6 +21,9 @@ export interface Component {
   beforeUnmount(): Promise<void> | void;
 }
 
+/**
+ * Class used to defined components. Please refer to the docs in the official repository for the usage details.
+ * */
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export abstract class Component<
   TProps = unknown,

@@ -5,6 +5,10 @@ interface RouteProps {
   to: string;
 }
 
+/**
+ * Describes a `Router`'s route.
+ * Refer to the official docs for the usage details.
+ * */
 export class Route extends Component<RouteProps> {
   render() {
     const { to, children, router } = this.props;

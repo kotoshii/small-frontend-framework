@@ -36,6 +36,10 @@ const toVDOMNodes = (nodes: NonEmptyNode[]): SFFElement[] =>
 const createChildrenArray = (children: MaybeArray<SFFNode>) =>
   toVDOMNodes(removeEmptyNodes(toArray<SFFNode>(children)));
 
+/**
+ * Main Hyperscript function. Used to describe the component structure in a declarative way.
+ * Refer to the official docs for the usage details.
+ * */
 export function h<T extends Component | string = string>(
   tagOrComponent: HyperscriptTagType<T>,
   props?: HyperscriptPropsType<T>,
@@ -79,6 +83,11 @@ export function hString(value: string | number): VDOMNodeText {
   };
 }
 
+/**
+ * Hyperscript function to create the Fragment nodes, that won't be reflected in the real DOM.
+ * The Fragment nodes can be used in cases when you need to bind together a group of other nodes but don't want the container
+ * to appear in the real HTML structure in the browser.
+ * */
 export function hFragment(
   children: MaybeArray<SFFNode> = [],
 ): VDOMNodeFragment {

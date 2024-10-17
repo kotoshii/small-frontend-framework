@@ -5,6 +5,10 @@ interface LinkProps {
   to: string;
 }
 
+/**
+ * Creates a link which then can be used with `Router`.
+ * Refer to the official docs for the usage details.
+ * */
 export class Link extends Component<LinkProps> {
   handleClick = (e: Event) => {
     e.preventDefault();
