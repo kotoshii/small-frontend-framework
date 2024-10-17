@@ -1,5 +1,7 @@
 # SFF - Small Frontend Framework
-Actually more like a library than a framework, but who really cares? **Created for educational purposes.**
+###### Actually more like a library than a framework, but who really cares?
+
+<ins>**Created for educational purposes.**</ins>
 
 This document contains brief info of how to quickly initialize your SFF project and start the development.
 If you need a more detailed overview of a certain module, refer to the following links:
