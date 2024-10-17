@@ -1,6 +1,6 @@
 {
   "name": "@sff-ui/cli",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "SFF CLI - A CLI tool for Small Frontend Framework",
   "bin": {
     "sff-ui": "dist/bin/cli.js"
