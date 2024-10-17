@@ -22,7 +22,8 @@
   "scripts": {
     "clean": "rimraf dist/",
     "build": "yarn clean && tsc & tsc-alias",
-    "release": "commit-and-tag-version -t @sff-ui/core/v",
+    "docs": "typedoc index.ts",
+    "release": "yarn docs && commit-and-tag-version -t @sff-ui/core/v",
     "release:publish": "yarn build && npm publish"
   },
   "devDependencies": {
