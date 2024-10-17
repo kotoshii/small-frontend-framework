@@ -26,6 +26,10 @@ Go to the created project folder:
 ```shell
 cd my-app
 ```
+Install the dependencies:
+```shell
+npm install
+```
 Run the app in the development mode:
 ```shell
 npm run start
